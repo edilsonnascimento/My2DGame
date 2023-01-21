@@ -24,14 +24,13 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
     public final int worldWidth = tileSize * maxScreenCol;
-    public final int worldHeight = tileSize * maxScrenRow;
 
     // FPS
     int FPS = 60;
 
     // SYSTEM
     TileManager tileManager = new TileManager(this);
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyHandler = new KeyHandler(this);
     Sound sound = new Sound();
     public UI ui = new UI(this);
     Thread gameThread;
@@ -41,12 +40,18 @@ public class GamePanel extends JPanel implements Runnable{
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyHandler);
     public SuperObject objects[] = new SuperObject[10];
+
+    // GAME STATE
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
     public GamePanel() {
         this.setPreferredSize(new Dimension(screeWidth, screeHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        this.gameState = playState;
     }
 
     public void setupGame() {
@@ -58,7 +63,12 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
     }
     public void update() {
-        player.update();
+        if(isStateGamePlay())
+            player.update();
+
+        if(isStateGamePause()) {
+            //implement
+        }
     }
 
     @Override
@@ -132,5 +142,13 @@ public class GamePanel extends JPanel implements Runnable{
     public void playSE(int i) {
         sound.setFile(i);
         sound.play();
+    }
+
+    public boolean isStateGamePlay() {
+        return this.gameState == this.playState;
+    }
+
+    public boolean isStateGamePause() {
+        return this.gameState == this.pauseState;
     }
 }

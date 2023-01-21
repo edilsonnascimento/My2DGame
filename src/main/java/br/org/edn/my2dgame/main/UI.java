@@ -10,15 +10,16 @@ public class UI {
 
     private static final int TWO_FRAMES = 120;
     GamePanel gamePanel;
+    Graphics2D graphics2D;
     Font arial40;
     Font arial80Bold;
-    BufferedImage keyImage;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
     public boolean gameFinished = false;
     private double plyaTime;
-    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    private final DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    private final BufferedImage keyImage;
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -34,7 +35,15 @@ public class UI {
     }
 
     public void draw(Graphics2D graphics2D) {
+        this.graphics2D = graphics2D;
+        if(gamePanel.isStateGamePlay())
+            drawPlayerScreen();
 
+        if(gamePanel.isStateGamePause())
+            drawPauseScreen();
+    }
+
+    private void drawPlayerScreen() {
         if(gameFinished) {
             graphics2D.setFont(arial40);
             graphics2D.setColor(Color.WHITE);
@@ -84,5 +93,17 @@ public class UI {
                 }
             }
         }
+    }
+    private void drawPauseScreen() {
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.PLAIN, 80F));
+        graphics2D.setColor(Color.white);
+        String text = "PAUSED";
+        int x = getXForCenteredText(text);
+        int y = gamePanel.screeHeight/2;
+        graphics2D.drawString(text, x, y);
+    }
+    private int getXForCenteredText(String text) {
+        int length = (int) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
+        return gamePanel.screeWidth/2 - length/2;
     }
 }
