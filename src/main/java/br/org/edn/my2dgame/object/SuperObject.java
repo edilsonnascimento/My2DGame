@@ -1,6 +1,7 @@
 package br.org.edn.my2dgame.object;
 
 import br.org.edn.my2dgame.main.GamePanel;
+import br.org.edn.my2dgame.main.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,7 @@ public class SuperObject {
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
+    protected UtilityTool utilityTool = new UtilityTool();
 
     public void draw(Graphics2D graphics2D, GamePanel gamePanel) {
         int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;

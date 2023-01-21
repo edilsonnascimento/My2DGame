@@ -3,6 +3,7 @@ package br.org.edn.my2dgame.entity;
 import br.org.edn.my2dgame.main.Constants;
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.KeyHandler;
+import br.org.edn.my2dgame.main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -40,18 +41,27 @@ public class Player extends Entity {
         direction = "down";
     }
     public void getPlayerImage() {
+        up1 = setup("boy_up_1");
+        up2 = setup("boy_up_2");
+        down1 = setup("boy_down_1");
+        down2 = setup("boy_down_2");
+        left1 = setup("boy_left_1");
+        left2 = setup("boy_left_2");
+        rigth1 = setup("boy_right_1");
+        rigth2 = setup("boy_right_2");
+    }
+
+    private BufferedImage setup(String imageName) {
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage bufferedImage = null;
+
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_2.png"));
-            rigth1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_1.png"));
-            rigth2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_2.png"));
+            bufferedImage = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+            bufferedImage = utilityTool.scaleImage(bufferedImage, gamePanel.tileSize, gamePanel.tileSize);
         } catch (IOException e) {
-            System.out.println("ERROR CAPTURAR IMAGEM");
+            System.out.println("ERROR LOAD: " + imageName);
         }
+        return bufferedImage;
     }
 
     public void update() {
@@ -170,6 +180,6 @@ public class Player extends Entity {
                     image = rigth2;
                 break;
         }
-        graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+        graphics2D.drawImage(image, screenX, screenY, null);
     }
 }

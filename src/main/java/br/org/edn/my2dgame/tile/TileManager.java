@@ -1,6 +1,7 @@
 package br.org.edn.my2dgame.tile;
 
 import br.org.edn.my2dgame.main.GamePanel;
+import br.org.edn.my2dgame.main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,30 +24,22 @@ public class TileManager {
     }
 
     public void getTileImage() {
+        setup(0, "grass01", false);
+        setup(1, "wall", false);
+        setup(2, "water00", true);
+        setup(3, "earth", false);
+        setup(4, "tree", true);
+        setup(5, "road00", false);
+    }
+    private void setup(int index, String imageName, boolean collision) {
+        UtilityTool utilityTool = new UtilityTool();
         try {
-            tiles[0] = new Tile();
-            tiles[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass01.png"));
-
-            tiles[1] = new Tile();
-            tiles[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
-            tiles[1].coolision = true;
-
-            tiles[2] = new Tile();
-            tiles[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water00.png"));
-            tiles[2].coolision = true;
-
-            tiles[3] = new Tile();
-            tiles[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
-
-            tiles[4] = new Tile();
-            tiles[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
-            tiles[4].coolision = true;
-
-            tiles[5] = new Tile();
-            tiles[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/road00.png"));
-
+            tiles[index] = new Tile();
+            tiles[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/" + imageName + ".png"));
+            tiles[index].image = utilityTool.scaleImage(tiles[index].image, gamePanel.tileSize, gamePanel.tileSize);
+            tiles[index].coolision = collision;
         } catch (IOException e) {
-            System.out.println("ERROR CATCH IMAGE TILE");
+            System.out.println("Erro ao carregar TILE: " + imageName);
         }
     }
     public void loadMap(String filePath){
@@ -88,7 +81,7 @@ public class TileManager {
                worldX - gamePanel.tileSize < gamePanel.player.worldX + gamePanel.player.screenX &&
                worldY + gamePanel.tileSize > gamePanel.player.worldY - gamePanel.player.screenY &&
                worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY) {
-                graphics2D.drawImage(tiles[tileNum].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                graphics2D.drawImage(tiles[tileNum].image, screenX, screenY, null);
             }
 
             worldCol++;
