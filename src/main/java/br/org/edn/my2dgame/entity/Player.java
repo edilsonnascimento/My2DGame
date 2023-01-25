@@ -15,53 +15,40 @@ import static java.util.Objects.isNull;
 
 public class Player extends Entity {
 
-    private final int TIME_CHANG_IMAGE = 12;
-    GamePanel gamePanel;
+    public static final int TIME_CHANG_IMAGE = 12;
     KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
     public int hasKey;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
-        this.gamePanel = gamePanel;
+        super(gamePanel);
         this.keyHandler = keyHandler;
         screenX = gamePanel.screeWidth/2 - (gamePanel.tileSize/2);
         screenY = gamePanel.screeHeight/2 - (gamePanel.tileSize/2);
-        solidArea = new Rectangle(8, 16, 24, 24);
         solidAreaDefaultX = solidArea.x;
-        getSolidAreaDefaultY = solidArea.y;
+        solidAreaDefaultY = solidArea.y;
 
         setDefaultValues();
-        getPlayerImage();
+        getEntityImage("/player/");
     }
+
     public void setDefaultValues() {
         worldX = gamePanel.tileSize * 23;
         worldY = gamePanel.tileSize * 21;
         speed = 4;
         direction = "down";
     }
-    public void getPlayerImage() {
-        up1 = setup("boy_up_1");
-        up2 = setup("boy_up_2");
-        down1 = setup("boy_down_1");
-        down2 = setup("boy_down_2");
-        left1 = setup("boy_left_1");
-        left2 = setup("boy_left_2");
-        rigth1 = setup("boy_right_1");
-        rigth2 = setup("boy_right_2");
-    }
-
-    private BufferedImage setup(String imageName) {
-        UtilityTool utilityTool = new UtilityTool();
-        BufferedImage bufferedImage = null;
-
-        try {
-            bufferedImage = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
-            bufferedImage = utilityTool.scaleImage(bufferedImage, gamePanel.tileSize, gamePanel.tileSize);
-        } catch (IOException e) {
-            System.out.println("ERROR LOAD: " + imageName);
-        }
-        return bufferedImage;
+    @Override
+    public void getEntityImage(String directory) {
+        up1 = setup(directory,"boy_up_1");
+        up2 = setup(directory,"boy_up_2");
+        down1 = setup(directory,"boy_down_1");
+        down2 = setup(directory,"boy_down_2");
+        left1 = setup(directory,"boy_left_1");
+        left2 = setup(directory,"boy_left_2");
+        rigth1 = setup(directory,"boy_right_1");
+        rigth2 = setup(directory,"boy_right_2");
     }
 
     public void update() {
@@ -82,6 +69,10 @@ public class Player extends Entity {
             //CHECK OBJECT COLLISION
             int objectIndex = gamePanel.collisionChecker.checkObject(this, TRUE);
             pickUpObject(objectIndex);
+
+            //CHECK NPC COLLISION
+            int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
+            interactNPC(npcIndex);
 
             // IF NOT COLLISION, PLAYER CON MOVE
             if(!collisionOn) {
@@ -109,6 +100,13 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
+        }
+    }
+
+    private void interactNPC(int index) {
+        if(index != Constants.NOT_OBJECTS) {
+            System.out.println("alçfjasdlçfjioefaçfnasf ncpf");
+
         }
     }
 
