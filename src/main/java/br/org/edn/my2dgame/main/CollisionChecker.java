@@ -66,7 +66,6 @@ public class CollisionChecker {
                 gamePanel.objects[i].solidArea.x += gamePanel.objects[i].worldX;
                 gamePanel.objects[i].solidArea.y += gamePanel.objects[i].worldY;
 
-                String clicked = "";
                 switch (entity.direction) {
                     case UP:
                         entity.solidArea.y -= entity.speed;

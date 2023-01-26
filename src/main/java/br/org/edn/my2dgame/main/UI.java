@@ -1,9 +1,6 @@
 package br.org.edn.my2dgame.main;
 
-import br.org.edn.my2dgame.object.KeyObject;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 public class UI {
@@ -19,14 +16,11 @@ public class UI {
     public boolean gameFinished = false;
     private double plyaTime;
     private final DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-    private final BufferedImage keyImage;
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.arial40 = new Font("Arial", Font.PLAIN, 40);
         this.arial80Bold = new Font("Arial", Font.BOLD, 80);
-        KeyObject key = new KeyObject(gamePanel);
-        this.keyImage = key.image;
     }
 
     public void showMessage(String text) {
@@ -70,18 +64,14 @@ public class UI {
 
             gamePanel.gameThread = null;
         } else {
-            // COUNTER KEY
-            int hafTileSize = gamePanel.tileSize / 2;
+            // TIME
             graphics2D.setFont(arial40);
             graphics2D.setColor(Color.WHITE);
-            graphics2D.drawImage(keyImage, hafTileSize, hafTileSize, gamePanel.tileSize, gamePanel.tileSize, null);
-            graphics2D.drawString("x " + gamePanel.player.hasKey, 75, 68);
-
-            // TIME
             plyaTime += (double) 1 / gamePanel.FPS;
             graphics2D.drawString("Time: " + decimalFormat.format(plyaTime), gamePanel.tileSize * 11, 65);
 
             // MESSAGE
+            int hafTileSize = gamePanel.tileSize / 2;
             if (messageOn) {
                 graphics2D.setFont(graphics2D.getFont().deriveFont(30F));
                 graphics2D.drawString(message, hafTileSize, gamePanel.tileSize * 5);
