@@ -1,7 +1,6 @@
 package br.org.edn.my2dgame.main;
 
 import java.awt.*;
-import java.text.DecimalFormat;
 
 public class UI {
 
@@ -14,8 +13,6 @@ public class UI {
     public String message = "";
     int messageCounter = 0;
     public boolean gameFinished = false;
-    private double plyaTime;
-    private final DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     public String currentDialogues = "";
 
     public UI(GamePanel gamePanel) {
@@ -57,12 +54,6 @@ public class UI {
             int y = gamePanel.screeHeight/2 - (gamePanel.tileSize * 3);
             graphics2D.drawString(text, x, y);
 
-            text = "You Time is: " + decimalFormat.format(plyaTime) + "!";
-            textLength = (int) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
-            x = gamePanel.screeWidth/2 - textLength/2;
-            y = gamePanel.screeHeight/2 + (gamePanel.tileSize * 4);
-            graphics2D.drawString(text, x, y);
-
             graphics2D.setFont(arial80Bold);
             graphics2D.setColor(Color.yellow);
             text = "Congratulations";
@@ -73,12 +64,6 @@ public class UI {
 
             gamePanel.gameThread = null;
         } else {
-            // TIME
-            graphics2D.setFont(arial40);
-            graphics2D.setColor(Color.WHITE);
-            plyaTime += (double) 1 / gamePanel.FPS;
-            graphics2D.drawString("Time: " + decimalFormat.format(plyaTime), gamePanel.tileSize * 11, 65);
-
             // MESSAGE
             int hafTileSize = gamePanel.tileSize / 2;
             if (messageOn) {

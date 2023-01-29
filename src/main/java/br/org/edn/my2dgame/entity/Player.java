@@ -102,13 +102,9 @@ public class Player extends Entity {
     }
 
     private void interactNPC(int index) {
-        if(index != NOT_OBJECTS) {
-            System.out.println("collision");
-            if(gamePanel.keyHandler.enterPressed) {
-                System.out.println("ENTER");
-                gamePanel.gameState = gamePanel.diologueState;
-                gamePanel.npc[index].speak();
-            }
+        if((index != NOT_OBJECTS) && gamePanel.keyHandler.enterPressed){
+            gamePanel.gameState = gamePanel.diologueState;
+            gamePanel.npc[index].speak();
         }
         gamePanel.keyHandler.enterPressed = false;
     }
