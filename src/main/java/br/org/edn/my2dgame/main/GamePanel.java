@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // SYSTEM
     TileManager tileManager = new TileManager(this);
-    KeyHandler keyHandler = new KeyHandler(this);
+    public KeyHandler keyHandler = new KeyHandler(this);
     Sound sound = new Sound();
     public UI ui = new UI(this);
     Thread gameThread;
@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int diologueState = 3;
     public GamePanel() {
         this.setPreferredSize(new Dimension(screeWidth, screeHeight));
         this.setBackground(Color.black);
@@ -152,7 +153,6 @@ public class GamePanel extends JPanel implements Runnable{
             long passed = drawEnd - drawStart;
             graphics2D.setColor(Color.white);
             graphics2D.drawString("Draw Time: " + passed, 10, 400);
-            System.out.println("Draw Time: " + passed);
         }
 
         graphics2D.dispose();
@@ -179,5 +179,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     public boolean isStateGamePause() {
         return this.gameState == this.pauseState;
+    }
+
+    public boolean isStateDialogueState() {
+        return this.gameState == this.diologueState;
     }
 }

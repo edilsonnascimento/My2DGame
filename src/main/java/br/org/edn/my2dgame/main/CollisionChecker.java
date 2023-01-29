@@ -104,7 +104,6 @@ public class CollisionChecker {
     // NPC OR MONSTER
     public int checkEntity(Entity entity, Entity[] entities) {
         index = NOT_OBJECTS;
-        boolean player = true;
         for (int i = 0; i < entities.length; i++) {
             if(nonNull(entities[i])) {
                 // Get Entity's solid area position

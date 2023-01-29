@@ -4,7 +4,7 @@ import br.org.edn.my2dgame.main.GamePanel;
 
 import java.util.Random;
 
-import static br.org.edn.my2dgame.main.Constants.TWO_FPS;
+import static br.org.edn.my2dgame.main.Constants.*;
 
 public class NPCOldMan extends Entity {
 
@@ -13,6 +13,7 @@ public class NPCOldMan extends Entity {
         direction = "down";
         speed = 1;
         getEntityImage("/npc/");
+        setDialogue();
     }
 
     @Override
@@ -44,5 +45,17 @@ public class NPCOldMan extends Entity {
                 direction = "right";
             actionLockCounter = 0;
         }
+    }
+
+    public void setDialogue() {
+        dialogues[0] = "Helo, lad.";
+        dialogues[1] = "So you've come to this island to \nfind the treasure?";
+        dialogues[2] = "I used to be a great wizard but now... \nI'm a bit too old for talking an adventure.";
+        dialogues[3] = "Well, good luck on you.";
+    }
+
+    @Override
+    public void speak() {
+        super.speak();
     }
 }

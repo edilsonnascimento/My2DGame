@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import static br.org.edn.my2dgame.entity.Player.TIME_CHANG_IMAGE;
+import static br.org.edn.my2dgame.main.Constants.*;
 import static java.lang.Boolean.FALSE;
 
 public class Entity {
@@ -19,11 +20,13 @@ public class Entity {
     public String direction;
     public int spriteCounter = 0;
     public int spriteNum = 1;
-    public Rectangle solidArea = new Rectangle(0, 0, 24, 24);
+    public Rectangle solidArea = new Rectangle(0, 0, 34, 34);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
     protected GamePanel gamePanel;
     public int actionLockCounter = 0;
+    protected String dialogues[] = new String[20];
+    protected int dialogueIndex = 0;
 
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -119,5 +122,26 @@ public class Entity {
                 break;
         }
         graphics2D.drawImage(image, screenX, screenY, null);
+    }
+    public void speak() {
+        if (dialogues[dialogueIndex] == null)
+            dialogueIndex = 0;
+        gamePanel.ui.currentDialogues = dialogues[dialogueIndex];
+        dialogueIndex++;
+        // LOOK IN MY EYES THE PLAYER
+        switch (gamePanel.player.direction) {
+            case UP:
+                direction = DOWN;
+                break;
+            case DOWN :
+                direction = UP;
+                break;
+            case LEFT :
+                direction = RIGHT;
+                break;
+            case RIGHT:
+                direction = LEFT;
+                break;
+        }
     }
 }

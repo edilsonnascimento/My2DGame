@@ -1,15 +1,13 @@
 package br.org.edn.my2dgame.entity;
 
-import br.org.edn.my2dgame.main.Constants;
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.KeyHandler;
-import br.org.edn.my2dgame.main.UtilityTool;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.Random;
 
+import static br.org.edn.my2dgame.main.Constants.*;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
 
@@ -54,13 +52,13 @@ public class Player extends Entity {
     public void update() {
         if(isKeypressed()) {
             if (keyHandler.upPressed) {
-                direction = "up";
+                direction = UP;
             } else if (keyHandler.downPressed) {
-                direction = "down";
+                direction = DOWN;
             } else if (keyHandler.leftPressed) {
-                direction = "left";
+                direction = LEFT;
             } else if (keyHandler.rightPressed) {
-                direction = "right";
+                direction = RIGHT;
             }
             //CHECK TILE COLLISION
             collisionOn = false;
@@ -104,14 +102,19 @@ public class Player extends Entity {
     }
 
     private void interactNPC(int index) {
-        if(index != Constants.NOT_OBJECTS) {
-            System.out.println("alçfjasdlçfjioefaçfnasf ncpf");
-
+        if(index != NOT_OBJECTS) {
+            System.out.println("collision");
+            if(gamePanel.keyHandler.enterPressed) {
+                System.out.println("ENTER");
+                gamePanel.gameState = gamePanel.diologueState;
+                gamePanel.npc[index].speak();
+            }
         }
+        gamePanel.keyHandler.enterPressed = false;
     }
 
     private void pickUpObject(int index) {
-        if(index != Constants.NOT_OBJECTS) {
+        if(index != NOT_OBJECTS) {
             String objectName = isNull(gamePanel.objects[index]) ? "" : gamePanel.objects[index].name;
             switch (objectName) {
                 case "Key" :
