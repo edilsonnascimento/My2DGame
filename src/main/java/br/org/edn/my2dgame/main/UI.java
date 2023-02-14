@@ -1,14 +1,18 @@
 package br.org.edn.my2dgame.main;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static java.awt.RenderingHints.KEY_TEXT_ANTIALIASING;
+import static java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
 
 public class UI {
 
     private static final int TWO_FRAMES = 120;
     GamePanel gamePanel;
     Graphics2D graphics2D;
-    Font arial40;
-    Font arial80Bold;
+    Font purisaBold;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
@@ -17,8 +21,14 @@ public class UI {
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.arial40 = new Font("Arial", Font.PLAIN, 40);
-        this.arial80Bold = new Font("Arial", Font.BOLD, 80);
+        try {
+            InputStream inputStream = getClass().getResourceAsStream("/fonts/Purisa_Bold.ttf");
+            this.purisaBold = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+        } catch (FontFormatException e) {
+            System.out.println("erro ao criar font!");
+        } catch (IOException e) {
+            System.out.println("erro ao criar font!");
+        }
     }
 
     public void showMessage(String text) {
@@ -28,6 +38,9 @@ public class UI {
 
     public void draw(Graphics2D graphics2D) {
         this.graphics2D = graphics2D;
+        this.graphics2D.setFont(purisaBold);
+        this.graphics2D.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);
+        this.graphics2D.setColor(Color.white);
 
         // PLAY STATE
         if(gamePanel.isStateGamePlay())
@@ -45,7 +58,7 @@ public class UI {
 
     private void drawPlayerScreen() {
         if(gameFinished) {
-            graphics2D.setFont(arial40);
+            graphics2D.setFont(purisaBold);
             graphics2D.setColor(Color.WHITE);
 
             String text = "You found the treasure!";
@@ -54,7 +67,7 @@ public class UI {
             int y = gamePanel.screeHeight/2 - (gamePanel.tileSize * 3);
             graphics2D.drawString(text, x, y);
 
-            graphics2D.setFont(arial80Bold);
+            graphics2D.setFont(purisaBold);
             graphics2D.setColor(Color.yellow);
             text = "Congratulations";
             textLength = (int) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
