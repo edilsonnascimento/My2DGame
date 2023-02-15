@@ -1,5 +1,7 @@
 package br.org.edn.my2dgame.main;
 
+import org.ietf.jgss.GSSManager;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -21,8 +23,70 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        // TITLE STATE
+        if(gamePanel.isStateTitle()) {
+            if(gamePanel.ui.titleScreenState == 0) {
+                if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+                    gamePanel.ui.commandNumber--;
+                    if (gamePanel.ui.commandNumber < 0)
+                        gamePanel.ui.commandNumber = 2;
+                }
+                if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+                    gamePanel.ui.commandNumber++;
+                    if (gamePanel.ui.commandNumber > 2)
+                        gamePanel.ui.commandNumber = 0;
+                }
+                if (code == KeyEvent.VK_ENTER) {
+                    if (gamePanel.ui.commandNumber == 0) {
+                        gamePanel.ui.titleScreenState = 1;
+                        gamePanel.playMusic(0);
+                    }
+                    if (gamePanel.ui.commandNumber == 1) {
+                        // add later
+                    }
+                    if (gamePanel.ui.commandNumber == 2) {
+                        System.exit(0);
+                    }
+                }
+            }
+            else if(gamePanel.ui.titleScreenState == 1) {
+                if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+                    gamePanel.ui.commandNumber--;
+                    if (gamePanel.ui.commandNumber < 0)
+                        gamePanel.ui.commandNumber = 3;
+                }
+                if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+                    gamePanel.ui.commandNumber++;
+                    if (gamePanel.ui.commandNumber > 3)
+                        gamePanel.ui.commandNumber = 0;
+                }
+                if (code == KeyEvent.VK_ENTER) {
+                    if (gamePanel.ui.commandNumber == 0) {
+                        System.out.println("DO SOME FIGHTER SPECIFIC STUFF!");
+                        gamePanel.gameState = gamePanel.playState;
+                        gamePanel.playMusic(0);
+                    }
+                    if (gamePanel.ui.commandNumber == 1) {
+                        System.out.println("DO SOME THIEF SPECIFIC STUFF!");
+                        gamePanel.gameState = gamePanel.playState;
+                        gamePanel.playMusic(0);
+                    }
+                    if (gamePanel.ui.commandNumber == 2) {
+                        System.out.println("DO SOME SORCERER SPECIFIC STUFF!");
+                        gamePanel.gameState = gamePanel.playState;
+                        gamePanel.playMusic(0);
+                        System.out.println("DO SOME FIGHTER SPECIFIC STUFF!");
+
+                    }if (gamePanel.ui.commandNumber == 3) {
+                        gamePanel.ui.titleScreenState = 0;
+                    }
+                }
+            }
+
+        }
+
         // PLAYER STATE
-        if(gamePanel.gameState == gamePanel.playState) {
+        if(gamePanel.isStateGamePlay()) {
             setKeyEvent(code, true);
             if (code == KeyEvent.VK_P)
                     gamePanel.gameState = gamePanel.pauseState;

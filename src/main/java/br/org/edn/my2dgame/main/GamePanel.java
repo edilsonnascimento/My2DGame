@@ -47,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // GAME STATE
     public int gameState;
+    public int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int diologueState = 3;
@@ -62,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable{
         assetSetter.setObject();
         playMusic(0);
         stopMusic(); // provisório
-        gameState = playState;
+        gameState = titleState;
     }
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -127,26 +128,29 @@ public class GamePanel extends JPanel implements Runnable{
         if(keyHandler.checkDrawTime)
                 drawStart = System.nanoTime();
 
-        // TILE
-        tileManager.draw(graphics2D);
+        // TITLE SCREEN
+        if(isStateTitle()) {
+            ui.draw(graphics2D);
+        } else {
+            // TILE
+            tileManager.draw(graphics2D);
 
-        // OBJECT
-        for(int i = 0; i < objects.length; i++) {
-            if(nonNull(objects[i]))
-                objects[i].draw(graphics2D, this);
-        }
-        // NPC
-        for (int i = 0; i < npc.length; i++) {
-            if(nonNull(npc[i])) {
-                npc[i].draw(graphics2D);
+            // OBJECT
+            for (int i = 0; i < objects.length; i++) {
+                if (nonNull(objects[i]))
+                    objects[i].draw(graphics2D, this);
             }
+            // NPC
+            for (int i = 0; i < npc.length; i++) {
+                if (nonNull(npc[i]))
+                    npc[i].draw(graphics2D);
+            }
+            // PLAYER
+            player.draw(graphics2D);
+
+            // UI
+            ui.draw(graphics2D);
         }
-        // PLAYER
-        player.draw(graphics2D);
-
-        // UI
-        ui.draw(graphics2D);
-
         // DEBUG
         if(keyHandler.checkDrawTime) {
             long drawEnd = System.nanoTime();
@@ -181,7 +185,11 @@ public class GamePanel extends JPanel implements Runnable{
         return this.gameState == this.pauseState;
     }
 
-    public boolean isStateDialogueState() {
+    public boolean isStateDialogue() {
         return this.gameState == this.diologueState;
+    }
+
+    public boolean isStateTitle() {
+        return this.gameState == this.titleState;
     }
 }

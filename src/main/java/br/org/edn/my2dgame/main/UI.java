@@ -13,21 +13,31 @@ public class UI {
     GamePanel gamePanel;
     Graphics2D graphics2D;
     Font purisaBold;
+    Font beefD;
+    Font safachrome;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
     public boolean gameFinished = false;
     public String currentDialogues = "";
+    public int commandNumber = 0;
+    public int titleScreenState = 0;
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        this.purisaBold = returnFont("/fonts/Purisa_Bold.ttf");
+        this.beefD = returnFont("/fonts/Beef_d.ttf");
+        this.safachrome = returnFont("/fonts/sofachrome rg.otf");
+    }
+
+    public Font returnFont(String path) {
+        InputStream inputStream = getClass().getResourceAsStream(path);
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/fonts/Purisa_Bold.ttf");
-            this.purisaBold = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            return Font.createFont(Font.TRUETYPE_FONT, inputStream);
         } catch (FontFormatException e) {
-            System.out.println("erro ao criar font!");
+            throw new RuntimeException(e);
         } catch (IOException e) {
-            System.out.println("erro ao criar font!");
+            throw new RuntimeException(e);
         }
     }
 
@@ -38,10 +48,14 @@ public class UI {
 
     public void draw(Graphics2D graphics2D) {
         this.graphics2D = graphics2D;
-        this.graphics2D.setFont(purisaBold);
+        this.graphics2D.setFont(safachrome);
         this.graphics2D.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);
         this.graphics2D.setColor(Color.white);
 
+        // TITLE STATE
+        if(gamePanel.isStateTitle()) {
+            drawTitleScreen();
+        }
         // PLAY STATE
         if(gamePanel.isStateGamePlay())
             drawPlayerScreen();
@@ -51,10 +65,99 @@ public class UI {
             drawPauseScreen();
 
         // DIALOGUES STATE
-        if(gamePanel.isStateDialogueState())
+        if(gamePanel.isStateDialogue())
             drawDialoguesScreen();
 
     }
+    private void drawTitleScreen() {
+        // TITLE NAME
+        if(titleScreenState == 0) {
+            graphics2D.setColor(new Color(0, 0, 0));
+            graphics2D.fillRect(0, 0, gamePanel.screeWidth, gamePanel.screeHeight);
+            graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 35F));
+            String text = "Blue Boy Adventure";
+            int x = getXForCenteredText(text);
+            int y = gamePanel.tileSize * 3;
+
+            // SHADOW
+            graphics2D.setColor(Color.gray);
+            graphics2D.drawString(text, x + 5, y + 5);
+
+            // MAIN COLOR
+            graphics2D.setColor(Color.white);
+            graphics2D.drawString(text, x, y);
+
+            // BLUE BOY IMAGE
+            x = gamePanel.screeWidth / 2 - (gamePanel.tileSize * 2) / 2;
+            y += gamePanel.tileSize * 2;
+            graphics2D.drawImage(gamePanel.player.down1, x, y, gamePanel.tileSize * 2, gamePanel.tileSize * 2, null);
+
+            // MENU
+            graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 28F));
+            text = "NEW GAME";
+            x = getXForCenteredText(text);
+            y += gamePanel.tileSize * 3.5;
+            graphics2D.drawString(text, x, y);
+            if (commandNumber == 0)
+                selectOption(x, y);
+
+            text = "LOAD GAME";
+            x = getXForCenteredText(text);
+            y += gamePanel.tileSize;
+            graphics2D.drawString(text, x, y);
+            if (commandNumber == 1)
+                selectOption(x, y);
+
+            text = "QUIT";
+            x = getXForCenteredText(text);
+            y += gamePanel.tileSize;
+            graphics2D.drawString(text, x, y);
+            if (commandNumber == 2)
+                selectOption(x, y);
+        } else if( titleScreenState == 1){
+            // CLASSE SELECTION SCREEN
+            graphics2D.setColor(Color.white);
+            graphics2D.setFont(graphics2D.getFont().deriveFont((30F)));
+            String text = "Select your class!";
+            int x = getXForCenteredText(text);
+            int y = gamePanel.tileSize * 3;
+            graphics2D.drawString(text, x, y);
+
+            text = "Figther";
+            x = getXForCenteredText((text));
+            y += gamePanel.tileSize * 3;
+            graphics2D.drawString(text, x, y);
+            if (commandNumber == 0) {
+                graphics2D.drawString(">", x - gamePanel.tileSize, y);
+            }
+            text = "Thief";
+            x = getXForCenteredText((text));
+            y += gamePanel.tileSize;
+            graphics2D.drawString(text, x, y);
+            if (commandNumber == 1) {
+                graphics2D.drawString(">", x - gamePanel.tileSize, y);
+            }
+            text = "Sorcer";
+            x = getXForCenteredText((text));
+            y += gamePanel.tileSize;
+            graphics2D.drawString(text, x, y);
+            if (commandNumber == 2) {
+                graphics2D.drawString(">", x - gamePanel.tileSize, y);
+            }
+            text = "Back";
+            x = getXForCenteredText((text));
+            y += gamePanel.tileSize * 2;
+            graphics2D.drawString(text, x, y);
+            if (commandNumber == 3) {
+                graphics2D.drawString(">", x - gamePanel.tileSize, y);
+            }
+        }
+    }
+
+    private void selectOption(int x, int y) {
+        graphics2D.drawString(">", x-gamePanel.tileSize, y);
+    }
+
 
     private void drawPlayerScreen() {
         if(gameFinished) {
