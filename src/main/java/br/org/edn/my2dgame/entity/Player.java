@@ -36,6 +36,10 @@ public class Player extends Entity {
         worldY = gamePanel.tileSize * 21;
         speed = 4;
         direction = "down";
+
+        // PLAYER SATUS
+        maxLife = 6;
+        life = 6;
     }
     @Override
     public void getEntityImage(String directory) {

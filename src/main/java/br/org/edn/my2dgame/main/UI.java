@@ -1,6 +1,10 @@
 package br.org.edn.my2dgame.main;
 
+import br.org.edn.my2dgame.object.HeartObject;
+import br.org.edn.my2dgame.object.SuperObject;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -14,6 +18,7 @@ public class UI {
     Graphics2D graphics2D;
     Font purisaBold;
     Font beefD;
+    BufferedImage heartFull, heartHalf, heartBlanck;
     Font safachrome;
     public boolean messageOn = false;
     public String message = "";
@@ -28,6 +33,10 @@ public class UI {
         this.purisaBold = returnFont("/fonts/Purisa_Bold.ttf");
         this.beefD = returnFont("/fonts/Beef_d.ttf");
         this.safachrome = returnFont("/fonts/sofachrome rg.otf");
+        SuperObject heart = new HeartObject(gamePanel);
+        heartFull = heart.heartFull;
+        heartHalf = heart.heartHalf;
+        heartBlanck = heart.heartBlank;
     }
 
     public Font returnFont(String path) {
@@ -58,17 +67,51 @@ public class UI {
         }
         // PLAY STATE
         if(gamePanel.isStateGamePlay())
-            drawPlayerScreen();
+            drawPlayerLife();
 
         // PAUSE STATE
-        if(gamePanel.isStateGamePause())
+        if(gamePanel.isStateGamePause()) {
+            drawPlayerLife();
             drawPauseScreen();
+        }
 
         // DIALOGUES STATE
-        if(gamePanel.isStateDialogue())
+        if(gamePanel.isStateDialogue()) {
+            drawPlayerLife();
             drawDialoguesScreen();
-
+        }
     }
+
+    private void drawPlayerLife() {
+        int x = gamePanel.tileSize/2;
+        int y = gamePanel.tileSize/2;
+        int i = 0;
+        int treeHearts = gamePanel.player.maxLife/2;
+
+        // DRAW MAX LIFE
+        while (i < treeHearts) {
+            graphics2D.drawImage(heartBlanck, x, y, null);
+            i++;
+            x += gamePanel.tileSize;
+        }
+
+        // RESET
+        x = gamePanel.tileSize/2;
+        y = gamePanel.tileSize/2;
+        i = 0;
+
+        // DRAW CURRENT LIFE
+        while (i < gamePanel.player.life) {
+            graphics2D.drawImage(heartHalf, x, y, null);
+            i++;
+            if(i < gamePanel.player.life) {
+                graphics2D.drawImage(heartFull, x, y, null);
+            }
+            i++;
+            x += gamePanel.tileSize;
+        }
+    }
+
     private void drawTitleScreen() {
         // TITLE NAME
         if(titleScreenState == 0) {

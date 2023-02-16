@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class SuperObject {
-    public BufferedImage image;
+    public BufferedImage image, heartFull, heartBlank, heartHalf;
     public String name;
     public boolean collision = false;
     public int worldX;
