@@ -61,16 +61,16 @@ public class Entity {
         // IF NOT COLLISION, PLAYER CON MOVE
         if(!collisionOn) {
             switch (direction) {
-                case "up" :
+                case UP :
                     worldY -= speed;
                     break;
-                case "down" :
+                case DOWN :
                     worldY += speed;
                     break;
-                case "left" :
+                case LEFT :
                     worldX -= speed;
                     break;
-                case "right" :
+                case RIGHT :
                     worldX += speed;
                     break;
             }

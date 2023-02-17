@@ -16,10 +16,10 @@ public class UI {
     private static final int TWO_FRAMES = 120;
     GamePanel gamePanel;
     Graphics2D graphics2D;
-    Font purisaBold;
-    Font beefD;
+    public Font purisaBold;
+    public Font beefD;
     BufferedImage heartFull, heartHalf, heartBlanck;
-    Font safachrome;
+    public Font safachrome;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
@@ -56,11 +56,7 @@ public class UI {
     }
 
     public void draw(Graphics2D graphics2D) {
-        this.graphics2D = graphics2D;
-        this.graphics2D.setFont(safachrome);
-        this.graphics2D.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);
-        this.graphics2D.setColor(Color.white);
-
+        setFont(safachrome, graphics2D);
         // TITLE STATE
         if(gamePanel.isStateTitle()) {
             drawTitleScreen();
@@ -82,6 +78,13 @@ public class UI {
         }
     }
 
+    public void setFont(Font font, Graphics2D graphics2D) {
+        this.graphics2D = graphics2D;
+        this.graphics2D.setFont(font);
+        this.graphics2D.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);
+        this.graphics2D.setColor(Color.white);
+
+    }
     private void drawPlayerLife() {
         int x = gamePanel.tileSize/2;
         int y = gamePanel.tileSize/2;

@@ -10,7 +10,7 @@ public class NPCOldMan extends Entity {
 
     public NPCOldMan(GamePanel gamePanel) {
         super(gamePanel);
-        direction = "down";
+        direction = DOWN;
         speed = 1;
         getEntityImage("/npc/");
         setDialogue();

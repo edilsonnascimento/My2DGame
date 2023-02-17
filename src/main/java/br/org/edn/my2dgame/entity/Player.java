@@ -76,19 +76,24 @@ public class Player extends Entity {
             int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
             interactNPC(npcIndex);
 
+            // CHECK EVENT
+            gamePanel.eventHandler.checkEvent();
+
+            gamePanel.keyHandler.enterPressed = Boolean.FALSE;
+
             // IF NOT COLLISION, PLAYER CON MOVE
             if(!collisionOn) {
                 switch (direction) {
-                    case "up" :
+                    case UP :
                         worldY -= speed;
                         break;
-                    case "down" :
+                    case DOWN :
                         worldY += speed;
                         break;
-                    case "left" :
+                    case LEFT :
                         worldX -= speed;
                         break;
-                    case "right" :
+                    case RIGHT :
                         worldX += speed;
                         break;
                 }
@@ -106,11 +111,10 @@ public class Player extends Entity {
     }
 
     private void interactNPC(int index) {
-        if((index != NOT_OBJECTS) && gamePanel.keyHandler.enterPressed){
+        if((index != NOT_OBJECTS)){
             gamePanel.gameState = gamePanel.diologueState;
             gamePanel.npc[index].speak();
         }
-        gamePanel.keyHandler.enterPressed = false;
     }
 
     private void pickUpObject(int index) {
