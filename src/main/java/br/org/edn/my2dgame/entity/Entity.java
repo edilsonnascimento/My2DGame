@@ -99,25 +99,25 @@ public class Entity {
         }
 
         switch (direction) {
-            case "up" :
+            case UP :
                 if(spriteNum == 1)
                     image = up1;
                 if(spriteNum == 2)
                     image = up2;
                 break;
-            case "down" :
+            case DOWN :
                 if(spriteNum == 1)
                     image = down1;
                 if(spriteNum == 2)
                     image = down2;
                 break;
-            case "left" :
+            case LEFT :
                 if(spriteNum == 1)
                     image = left1;
                 if(spriteNum == 2)
                     image = left2;
                 break;
-            case "right" :
+            case RIGHT :
                 if(spriteNum == 1)
                     image = rigth1;
                 if(spriteNum == 2)

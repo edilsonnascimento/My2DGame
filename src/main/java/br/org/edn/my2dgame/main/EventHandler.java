@@ -2,8 +2,7 @@ package br.org.edn.my2dgame.main;
 
 import java.awt.*;
 
-import static br.org.edn.my2dgame.main.Constants.RIGHT;
-import static br.org.edn.my2dgame.main.Constants.UP;
+import static br.org.edn.my2dgame.main.Constants.*;
 
 public class EventHandler {
      GamePanel gamePanel;
@@ -25,9 +24,19 @@ public class EventHandler {
         if(hit(27,16, RIGHT))
             damegePit(gamePanel.diologueState);
 
-        if(hit(23,12, UP)) {
+        if(hit(27,16, RIGHT))
+            teleport(gamePanel.diologueState);
+
+        if(hit(23,7, DOWN))
             healingPool(gamePanel.diologueState);
-        }
+    }
+
+    private void teleport(int gameState) {
+        gamePanel.gameState = gameState;
+        gamePanel.ui.currentDialogues = "Teleport!";
+        gamePanel.player.worldX = gamePanel.tileSize * 37;
+        gamePanel.player.worldY = gamePanel.tileSize * 10;
+
     }
 
     private void damegePit(int gameState) {

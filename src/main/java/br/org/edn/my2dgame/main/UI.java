@@ -73,8 +73,10 @@ public class UI {
 
         // DIALOGUES STATE
         if(gamePanel.isStateDialogue()) {
+            setFont(purisaBold, graphics2D);
             drawPlayerLife();
             drawDialoguesScreen();
+            setFont(safachrome, graphics2D);
         }
     }
 
