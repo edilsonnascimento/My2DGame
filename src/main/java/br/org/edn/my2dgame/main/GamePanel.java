@@ -2,12 +2,15 @@ package br.org.edn.my2dgame.main;
 
 import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.entity.Player;
-import br.org.edn.my2dgame.object.SuperObject;
 import br.org.edn.my2dgame.tile.TileManager;
 
 import javax.swing.*;
 import javax.swing.plaf.PanelUI;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static java.util.Objects.nonNull;
 
@@ -43,8 +46,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyHandler);
-    public SuperObject objects[] = new SuperObject[10];
+    public Entity objects[] = new Entity[10];
     public Entity npc[] = new Entity[10];
+    List<Entity> entities = new ArrayList<>();
 
     // GAME STATE
     public int gameState;
@@ -132,22 +136,33 @@ public class GamePanel extends JPanel implements Runnable{
         // TITLE SCREEN
         if(isStateTitle()) {
             ui.draw(graphics2D);
+        // OTHERS
         } else {
             // TILE
             tileManager.draw(graphics2D);
 
-            // OBJECT
-            for (int i = 0; i < objects.length; i++) {
-                if (nonNull(objects[i]))
-                    objects[i].draw(graphics2D, this);
-            }
-            // NPC
+            // ADD ENTITES TO THE LIST
+            entities.add(player);
             for (int i = 0; i < npc.length; i++) {
-                if (nonNull(npc[i]))
-                    npc[i].draw(graphics2D);
+                if(npc[i] != null)
+                    entities.add(npc[i]);
             }
-            // PLAYER
-            player.draw(graphics2D);
+            for (int i = 0; i < objects.length; i++) {
+                if(objects[i] != null)
+                    entities.add(objects[i]);
+            }
+            Collections.sort(entities, new Comparator<Entity>() {
+                @Override
+                public int compare(Entity e1, Entity e2) {
+                    return Integer.compare(e1.worldY, e2.worldY);
+                }
+            });
+
+            // DRAW ENTITIES
+            for (int i = 0; i < entities.size(); i++) {
+                entities.get(i).draw(graphics2D);
+            }
+            entities.clear();
 
             // UI
             ui.draw(graphics2D);

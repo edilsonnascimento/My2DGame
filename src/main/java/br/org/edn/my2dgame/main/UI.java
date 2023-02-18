@@ -1,7 +1,7 @@
 package br.org.edn.my2dgame.main;
 
+import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.object.HeartObject;
-import br.org.edn.my2dgame.object.SuperObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -33,7 +33,7 @@ public class UI {
         this.purisaBold = returnFont("/fonts/Purisa_Bold.ttf");
         this.beefD = returnFont("/fonts/Beef_d.ttf");
         this.safachrome = returnFont("/fonts/sofachrome rg.otf");
-        SuperObject heart = new HeartObject(gamePanel);
+        Entity heart = new HeartObject(gamePanel);
         heartFull = heart.heartFull;
         heartHalf = heart.heartHalf;
         heartBlanck = heart.heartBlank;

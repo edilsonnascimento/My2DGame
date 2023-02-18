@@ -1,22 +1,22 @@
 package br.org.edn.my2dgame.object;
 
+import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.main.GamePanel;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
+import static java.lang.Boolean.TRUE;
 
-public class DoorObject extends SuperObject {
-    private GamePanel gamePanel;
-
+public class DoorObject extends Entity {
     public DoorObject(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+        super(gamePanel);
         name = "Door";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/door.png"));
-            utilityTool.scaleImage(image, gamePanel.tileSize, gamePanel.tileSize);
-        } catch (IOException e) {
-            System.out.println("Error load object: " + name);
-        }
-        collision = true;
+        down1 = setup("/objects/", "door");
+        collision = TRUE;
+
+        solidArea.x = 0;
+        solidArea.y = 16;
+        solidArea.width = 48;
+        solidArea.height = 32;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
     }
 }
