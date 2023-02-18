@@ -20,7 +20,7 @@ public class Entity {
     public String direction;
     public int spriteCounter = 0;
     public int spriteNum = 1;
-    public Rectangle solidArea = new Rectangle(0, 0, 34, 34);
+    public Rectangle solidArea = new Rectangle(0, 0, 34, 40);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
     protected GamePanel gamePanel;
