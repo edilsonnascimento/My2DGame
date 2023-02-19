@@ -5,14 +5,13 @@ import br.org.edn.my2dgame.main.KeyHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import static br.org.edn.my2dgame.main.Constants.*;
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
 
 public class Player extends Entity {
-
     public static final int TIME_CHANG_IMAGE = 12;
     KeyHandler keyHandler;
     public final int screenX;
@@ -22,6 +21,11 @@ public class Player extends Entity {
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
         this.keyHandler = keyHandler;
+        solidArea.x = 0;
+        solidArea.y = 0;
+        solidArea.width = 23;
+        solidArea.height = 30;
+
         screenX = gamePanel.screeWidth/2 - (gamePanel.tileSize/2);
         screenY = gamePanel.screeHeight/2 - (gamePanel.tileSize/2);
         solidAreaDefaultX = solidArea.x;
@@ -76,13 +80,15 @@ public class Player extends Entity {
             int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
             interactNPC(npcIndex);
 
+            // CHECK MONSTER COLLISION
+            int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monster);
+            contactMonster(monsterIndex);
+
             // CHECK EVENT
             gamePanel.eventHandler.checkEvent();
 
-            gamePanel.keyHandler.enterPressed = Boolean.FALSE;
-
             // IF NOT COLLISION, PLAYER CON MOVE
-            if(!collisionOn) {
+            if(!collisionOn && !gamePanel.keyHandler.enterPressed) {
                 switch (direction) {
                     case UP :
                         worldY -= speed;
@@ -98,6 +104,8 @@ public class Player extends Entity {
                         break;
                 }
             }
+            gamePanel.keyHandler.enterPressed = FALSE;
+
             spriteCounter++;
             if (spriteCounter > TIME_CHANG_IMAGE) {
                 if (spriteNum == 1) {
@@ -107,18 +115,40 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
+            else {
+                standCounter++;
+                if(standCounter == 20) {
+                    spriteNum = 1;
+                    standCounter = 0;
+                }
+            }
+        }
+         // This needs to be outSide of key if statement!
+        if(invincible) {
+            invicibleCounter++;
+            if(invicibleCounter > 60) {
+                invincible = FALSE;
+                invicibleCounter = 0;
+            }
+        }
+    }
+
+    private void contactMonster(int monsterIndex) {
+        if(isCollision(monsterIndex) && !invincible) {
+            life -=1;
+            invincible = TRUE;
         }
     }
 
     private void interactNPC(int index) {
-        if((index != NOT_OBJECTS)){
+        if(isCollision(index)) {
             gamePanel.gameState = gamePanel.diologueState;
             gamePanel.npc[index].speak();
         }
     }
 
     private void pickUpObject(int index) {
-        if(index != NOT_OBJECTS) {
+        if(isCollision(index)) {
             String objectName = isNull(gamePanel.objects[index]) ? "" : gamePanel.objects[index].name;
             switch (objectName) {
                 case "Key" :
@@ -152,9 +182,16 @@ public class Player extends Entity {
 
         }
     }
+
+    private boolean isCollision(int index) {
+        return index != NOT_OBJECTS;
+    }
+
+
     private boolean isKeypressed() {
         return keyHandler.upPressed || keyHandler.downPressed ||
-                keyHandler.leftPressed || keyHandler.rightPressed;
+                keyHandler.leftPressed || keyHandler.rightPressed ||
+                keyHandler.enterPressed;
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -185,6 +222,16 @@ public class Player extends Entity {
                     image = rigth2;
                 break;
         }
+
+        if(invincible) {
+            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        }
         graphics2D.drawImage(image, screenX, screenY, null);
+        // RESET
+        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+       // DEBUG
+//        graphics2D.setFont(new Font("Arial", Font.PLAIN, 26));
+//        graphics2D.setColor(Color.white);
+//        graphics2D.drawString("Invincible: " + invicibleCounter, 10, 400);
     }
 }

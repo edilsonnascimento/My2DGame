@@ -3,12 +3,14 @@ package br.org.edn.my2dgame.main;
 import br.org.edn.my2dgame.entity.Entity;
 
 import static br.org.edn.my2dgame.main.Constants.*;
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.nonNull;
 
 public class CollisionChecker {
     GamePanel gamePanel;
     int index = NOT_OBJECTS;
+    boolean contactPlayer;
     public CollisionChecker(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
@@ -65,25 +67,8 @@ public class CollisionChecker {
                 // Get Object's solid area position
                 gamePanel.objects[i].solidArea.x += gamePanel.objects[i].worldX;
                 gamePanel.objects[i].solidArea.y += gamePanel.objects[i].worldY;
-
-                switch (entity.direction) {
-                    case UP:
-                        entity.solidArea.y -= entity.speed;
-                        verifyCollision(entity, player, i);
-                        break;
-                    case DOWN:
-                        entity.solidArea.y += entity.speed;
-                        verifyCollision(entity, player, i);
-                        break;
-                    case LEFT:
-                        entity.solidArea.x -= entity.speed;
-                        verifyCollision(entity, player, i);
-                        break;
-                    case RIGHT:
-                        entity.solidArea.x += entity.speed;
-                        verifyCollision(entity, player, i);
-                        break;
-                }
+                changeDirection(entity);
+                verifyCollision(entity, player, i);
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 gamePanel.objects[i].solidArea.x = gamePanel.objects[i].solidAreaDefaultX;
@@ -92,6 +77,23 @@ public class CollisionChecker {
             }
         }
         return index;
+    }
+
+    private void changeDirection(Entity entity) {
+        switch (entity.direction) {
+            case UP:
+                entity.solidArea.y -= entity.speed;
+                break;
+            case DOWN:
+                entity.solidArea.y += entity.speed;
+                break;
+            case LEFT:
+                entity.solidArea.x -= entity.speed;
+                break;
+            case RIGHT:
+                entity.solidArea.x += entity.speed;
+                break;
+        }
     }
 
     private void verifyCollision(Entity entity, boolean player, int i) {
@@ -112,25 +114,8 @@ public class CollisionChecker {
                 // Get Object's solid area position
                 entities[i].solidArea.x += entities[i].worldX;
                 entities[i].solidArea.y += entities[i].worldY;
-
-                switch (entity.direction) {
-                    case UP:
-                        entity.solidArea.y -= entity.speed;
-                        verifyNPCCollision(entities, entity, i);
-                        break;
-                    case DOWN:
-                        entity.solidArea.y += entity.speed;
-                        verifyNPCCollision(entities, entity, i);
-                        break;
-                    case LEFT:
-                        entity.solidArea.x -= entity.speed;
-                        verifyNPCCollision(entities, entity, i);
-                        break;
-                    case RIGHT:
-                        entity.solidArea.x += entity.speed;
-                        verifyNPCCollision(entities, entity, i);
-                        break;
-                }
+                changeDirection(entity);
+                verifyEntityCollision(entities, entity, i);
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 entities[i].solidArea.x = entities[i].solidAreaDefaultX;
@@ -140,14 +125,15 @@ public class CollisionChecker {
         return index;
     }
 
-    private void verifyNPCCollision(Entity[] entities, Entity entity, int i) {
-        if(entity.solidArea.intersects(entities[i].solidArea)) {
+    private void verifyEntityCollision(Entity[] entities, Entity entity, int i) {
+        if(entity.solidArea.intersects(entities[i].solidArea) && entities[i] != entity) {
             entity.collisionOn = TRUE;
             index = i;
         }
     }
 
-    public void checkPlayer(Entity entity) {
+    public boolean checkPlayer(Entity entity) {
+        contactPlayer = FALSE;
 
         // Get Entity's solid area position
         entity.solidArea.x += entity.worldX;
@@ -155,33 +141,20 @@ public class CollisionChecker {
         // Get Object's solid area position
         gamePanel.player.solidArea.x += gamePanel.player.worldX;
         gamePanel.player.solidArea.y += gamePanel.player.worldY;
-
-        switch (entity.direction) {
-            case UP:
-                entity.solidArea.y -= entity.speed;
-                verifyPlayerCollision(entity);
-                break;
-            case DOWN:
-                entity.solidArea.y += entity.speed;
-                verifyPlayerCollision(entity);
-                break;
-            case LEFT:
-                entity.solidArea.x -= entity.speed;
-                verifyPlayerCollision(entity);
-                break;
-            case RIGHT:
-                entity.solidArea.x += entity.speed;
-                verifyPlayerCollision(entity);
-                break;
-        }
+        changeDirection(entity);
+        verifyPlayerCollision(entity);
         entity.solidArea.x = entity.solidAreaDefaultX;
         entity.solidArea.y = entity.solidAreaDefaultY;
         gamePanel.player.solidArea.x = gamePanel.player.solidAreaDefaultX;
         gamePanel.player.solidArea.y = gamePanel.player.solidAreaDefaultY;
+
+        return contactPlayer;
     }
 
     private void verifyPlayerCollision(Entity entity) {
-        if(entity.solidArea.intersects(gamePanel.player.solidArea))
+        if(entity.solidArea.intersects(gamePanel.player.solidArea)) {
             entity.collisionOn = TRUE;
+            contactPlayer = TRUE;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package br.org.edn.my2dgame.entity;
 
+import br.org.edn.my2dgame.main.Constants;
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.UtilityTool;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import static br.org.edn.my2dgame.entity.Player.TIME_CHANG_IMAGE;
 import static br.org.edn.my2dgame.main.Constants.*;
 import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class Entity {
 
@@ -19,16 +21,20 @@ public class Entity {
     public BufferedImage up1, up2, down1, down2, left1, left2, rigth1, rigth2;
     public String direction = DOWN;
     public int spriteCounter = 0;
+    public int standCounter = 0;
     public int spriteNum = 1;
     public Rectangle solidArea = new Rectangle(0, 0, 34, 40);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
     protected GamePanel gamePanel;
     public int actionLockCounter = 0;
+    public boolean invincible = FALSE;
+    public int invicibleCounter = 0;
     protected String dialogues[] = new String[20];
     public BufferedImage image, heartFull, heartBlank, heartHalf;
     public String name;
     public boolean collision = false;
+    public int type;
 
     protected int dialogueIndex = 0;
     // CHARACTER STATUS
@@ -58,10 +64,19 @@ public class Entity {
     public void setAction() {}
     public void update() {
         setAction();
-        collisionOn = false;
+
+        collisionOn = FALSE;
         gamePanel.collisionChecker.checkTitle(this);
         gamePanel.collisionChecker.checkObject(this, FALSE);
-        gamePanel.collisionChecker.checkPlayer(this);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
+        gamePanel.collisionChecker.checkEntity(this, gamePanel.monster);
+        boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
+
+        if(this.type == TYPE_MONSTER && contactPlayer && !gamePanel.player.invincible) {
+            gamePanel.player.life -= 1;
+            gamePanel.player.invincible = TRUE;
+        }
+
         // IF NOT COLLISION, PLAYER CON MOVE
         if(!collisionOn) {
             switch (direction) {

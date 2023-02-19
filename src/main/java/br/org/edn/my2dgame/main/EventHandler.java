@@ -43,9 +43,6 @@ public class EventHandler {
             if (hit(27, 16, RIGHT))
                 damegePit(27, 16, gamePanel.diologueState);
 
-        if(hit(23,19, ANY))
-            damegePit(27,16, gamePanel.diologueState);
-
             if (hit(23, 7, DOWN))
                 healingPool(23, 7, gamePanel.diologueState);
         }
