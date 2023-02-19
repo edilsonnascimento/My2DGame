@@ -7,8 +7,8 @@ public class HeartObject extends Entity {
     public HeartObject(GamePanel gamePanel) {
         super(gamePanel);
         name = "Heart";
-        heartFull = setup("/objects/","heart_full");
-        heartBlank = setup("/objects/","heart_blank");
-        heartHalf = setup("/objects/","heart_half");
+        heartFull = setup("/objects/","heart_full", gamePanel.tileSize, gamePanel.tileSize);
+        heartBlank = setup("/objects/","heart_blank", gamePanel.tileSize, gamePanel.tileSize);
+        heartHalf = setup("/objects/","heart_half", gamePanel.tileSize, gamePanel.tileSize);
     }
 }

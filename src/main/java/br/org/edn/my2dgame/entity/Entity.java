@@ -25,6 +25,7 @@ public class Entity {
 
     // SOLID AREA
     public Rectangle solidArea = new Rectangle(0, 0, 34, 40);
+    public Rectangle attackArea = new Rectangle(0,0,0,0);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = FALSE;
 
@@ -37,7 +38,8 @@ public class Entity {
     public String direction = DOWN;
     public int spriteNum = 1;
     protected int dialogueIndex = 0;
-    public boolean collision = false;
+    public boolean collision = FALSE;
+    boolean attacking = FALSE;
 
 
     // COUNTER
@@ -58,18 +60,15 @@ public class Entity {
         this.gamePanel = gamePanel;
     }
 
-    protected  void getEntityImage(String directory) {
-
-    };
-    protected BufferedImage setup(String directory, String imageName) {
+    protected BufferedImage setup(String imagePath, String imageName, int width, int height) {
         UtilityTool utilityTool = new UtilityTool();
         BufferedImage bufferedImage = null;
 
         try {
-            bufferedImage = ImageIO.read(getClass().getResourceAsStream(directory + imageName + ".png"));
-            bufferedImage = utilityTool.scaleImage(bufferedImage, gamePanel.tileSize, gamePanel.tileSize);
+            bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath + imageName + ".png"));
+            bufferedImage = utilityTool.scaleImage(bufferedImage, width, height);
         } catch (IOException e) {
-            System.out.println("ERROR LOAD IMAGE: " + directory + imageName);
+            System.out.println("ERROR LOAD IMAGE: " + imagePath + imageName);
         }
         return bufferedImage;
     }
@@ -93,18 +92,10 @@ public class Entity {
         // IF NOT COLLISION, PLAYER CON MOVE
         if(!collisionOn) {
             switch (direction) {
-                case UP :
-                    worldY -= speed;
-                    break;
-                case DOWN :
-                    worldY += speed;
-                    break;
-                case LEFT :
-                    worldX -= speed;
-                    break;
-                case RIGHT :
-                    worldX += speed;
-                    break;
+                case UP -> worldY -= speed;
+                case DOWN -> worldY += speed;
+                case LEFT -> worldX -= speed;
+                case RIGHT -> worldX += speed;
             }
         }
         spriteCounter++;
@@ -115,6 +106,15 @@ public class Entity {
                 spriteNum = 1;
             }
             spriteCounter = 0;
+        }
+
+        // This needs to be outSide of key if statement!
+        if (invincible) {
+            invicibleCounter++;
+            if (invicibleCounter > 40) {
+                invincible = FALSE;
+                invicibleCounter = 0;
+            }
         }
     }
     public void draw(Graphics2D graphics2D) {
@@ -132,31 +132,28 @@ public class Entity {
 
         switch (direction) {
             case UP :
-                if(spriteNum == 1)
-                    image = up1;
-                if(spriteNum == 2)
-                    image = up2;
+                if(spriteNum == 1) image = up1;
+                if(spriteNum == 2) image = up2;
                 break;
             case DOWN :
-                if(spriteNum == 1)
-                    image = down1;
-                if(spriteNum == 2)
-                    image = down2;
+                if(spriteNum == 1) image = down1;
+                if(spriteNum == 2) image = down2;
                 break;
             case LEFT :
-                if(spriteNum == 1)
-                    image = left1;
-                if(spriteNum == 2)
-                    image = left2;
+                if(spriteNum == 1) image = left1;
+                if(spriteNum == 2) image = left2;
                 break;
             case RIGHT :
-                if(spriteNum == 1)
-                    image = rigth1;
-                if(spriteNum == 2)
-                    image = rigth2;
+                if(spriteNum == 1) image = rigth1;
+                if(spriteNum == 2) image = rigth2;
                 break;
         }
+        if(invincible)
+            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+
         graphics2D.drawImage(image, screenX, screenY, null);
+
+        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
     public void speak() {
         if (dialogues[dialogueIndex] == null)

@@ -86,7 +86,7 @@ public class KeyHandler implements KeyListener {
         }
 
         // PLAYER STATE
-        if(gamePanel.isStateGamePlay()) {
+        else if(gamePanel.isStateGamePlay()) {
             setKeyEvent(code, true);
             if (code == KeyEvent.VK_P)
                     gamePanel.gameState = gamePanel.pauseState;

@@ -7,6 +7,6 @@ public class ChestObject extends Entity {
     public ChestObject(GamePanel gamePanel) {
         super(gamePanel);
         name = "Chest";
-        down1 = setup("/objects/","chest_opened");
+        down1 = setup("/objects/","chest_opened", gamePanel.tileSize, gamePanel.tileSize);
     }
 }
