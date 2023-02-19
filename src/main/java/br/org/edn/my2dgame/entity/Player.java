@@ -47,14 +47,15 @@ public class Player extends Entity {
     }
     @Override
     public void getEntityImage(String directory) {
-        up1 = setup(directory,"boy_up_1");
-        up2 = setup(directory,"boy_up_2");
-        down1 = setup(directory,"boy_down_1");
-        down2 = setup(directory,"boy_down_2");
-        left1 = setup(directory,"boy_left_1");
-        left2 = setup(directory,"boy_left_2");
-        rigth1 = setup(directory,"boy_right_1");
-        rigth2 = setup(directory,"boy_right_2");
+        String subDirector = "walking/";
+        up1 = setup(directory,subDirector + "boy_up_1");
+        up2 = setup(directory,subDirector + "boy_up_2");
+        down1 = setup(directory,subDirector + "boy_down_1");
+        down2 = setup(directory,subDirector + "boy_down_2");
+        left1 = setup(directory,subDirector + "boy_left_1");
+        left2 = setup(directory,subDirector + "boy_left_2");
+        rigth1 = setup(directory,subDirector + "boy_right_1");
+        rigth2 = setup(directory,subDirector + "boy_right_2");
     }
 
     public void update() {
@@ -195,38 +196,38 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics2D graphics2D) {
-        BufferedImage image = null;
+        BufferedImage imagePlayer = null;
         switch (direction) {
             case "up" :
                 if(spriteNum == 1)
-                    image = up1;
+                    imagePlayer = up1;
                 if(spriteNum == 2)
-                    image = up2;
+                    imagePlayer = up2;
                 break;
             case "down" :
                 if(spriteNum == 1)
-                    image = down1;
+                    imagePlayer = down1;
                 if(spriteNum == 2)
-                    image = down2;
+                    imagePlayer = down2;
                 break;
             case "left" :
                 if(spriteNum == 1)
-                    image = left1;
+                    imagePlayer = left1;
                 if(spriteNum == 2)
-                    image = left2;
+                    imagePlayer = left2;
                 break;
             case "right" :
                 if(spriteNum == 1)
-                    image = rigth1;
+                    imagePlayer = rigth1;
                 if(spriteNum == 2)
-                    image = rigth2;
+                    imagePlayer = rigth2;
                 break;
         }
 
         if(invincible) {
             graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         }
-        graphics2D.drawImage(image, screenX, screenY, null);
+        graphics2D.drawImage(imagePlayer, screenX, screenY, null);
         // RESET
         graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
        // DEBUG

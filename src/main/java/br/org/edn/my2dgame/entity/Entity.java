@@ -1,6 +1,5 @@
 package br.org.edn.my2dgame.entity;
 
-import br.org.edn.my2dgame.main.Constants;
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.UtilityTool;
 
@@ -16,28 +15,42 @@ import static java.lang.Boolean.TRUE;
 
 public class Entity {
 
-    public int worldX, worldY ;
-    public int speed;
+    protected GamePanel gamePanel;
+
+    // IMAGES
     public BufferedImage up1, up2, down1, down2, left1, left2, rigth1, rigth2;
-    public String direction = DOWN;
-    public int spriteCounter = 0;
-    public int standCounter = 0;
-    public int spriteNum = 1;
+    public BufferedImage attackUp1, attackUp2, attackDow1, attackDow2, attackLeft1, attackLeft2,
+    attackRight1, attackRight2;
+    public BufferedImage heartFull, heartBlank, heartHalf;
+
+    // SOLID AREA
     public Rectangle solidArea = new Rectangle(0, 0, 34, 40);
     public int solidAreaDefaultX, solidAreaDefaultY;
-    public boolean collisionOn = false;
-    protected GamePanel gamePanel;
-    public int actionLockCounter = 0;
-    public boolean invincible = FALSE;
-    public int invicibleCounter = 0;
-    protected String dialogues[] = new String[20];
-    public BufferedImage image, heartFull, heartBlank, heartHalf;
-    public String name;
-    public boolean collision = false;
-    public int type;
+    public boolean collisionOn = FALSE;
 
+    public boolean invincible = FALSE;
+
+    protected String dialogues[] = new String[20];
+
+    // STATE
+    public int worldX, worldY ;
+    public String direction = DOWN;
+    public int spriteNum = 1;
     protected int dialogueIndex = 0;
+    public boolean collision = false;
+
+
+    // COUNTER
+    public int spriteCounter = 0;
+    public int actionLockCounter = 0;
+    public int standCounter = 0;
+    public int invicibleCounter = 0;
+
+
     // CHARACTER STATUS
+    public int type;
+    public String name;
+    public int speed;
     public int maxLife;
     public int life;
     
