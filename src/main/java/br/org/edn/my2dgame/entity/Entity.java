@@ -63,20 +63,8 @@ public class Entity {
         this.gamePanel = gamePanel;
     }
 
-    protected BufferedImage setup(String imagePath, String imageName, int width, int height) {
-        UtilityTool utilityTool = new UtilityTool();
-        BufferedImage bufferedImage = null;
-
-        try {
-            bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath + imageName + ".png"));
-            bufferedImage = utilityTool.scaleImage(bufferedImage, width, height);
-        } catch (IOException e) {
-            System.out.println("ERROR LOAD IMAGE: " + imagePath + imageName);
-        }
-        return bufferedImage;
-    }
-
     public void setAction() {}
+
     public void update() {
         setAction();
 
@@ -88,6 +76,7 @@ public class Entity {
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
         if(this.type == TYPE_MONSTER && contactPlayer && !gamePanel.player.invincible) {
+            gamePanel.playSE(6);
             gamePanel.player.life -= 1;
             gamePanel.player.invincible = TRUE;
         }
@@ -161,7 +150,6 @@ public class Entity {
 
         graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
-
     private void dyingAnimation(Graphics2D graphics2D) {
         dyingCounter++;
         int i = 5;
@@ -191,6 +179,19 @@ public class Entity {
         graphics2D.setComposite(getInstance(SRC_OVER, alphaValue));
     }
 
+    protected BufferedImage setup(String imagePath, String imageName, int width, int height) {
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage bufferedImage = null;
+
+        try {
+            bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath + imageName + ".png"));
+            bufferedImage = utilityTool.scaleImage(bufferedImage, width, height);
+        } catch (IOException e) {
+            System.out.println("ERROR LOAD IMAGE: " + imagePath + imageName);
+        }
+        return bufferedImage;
+    }
+
     public void speak() {
         if (dialogues[dialogueIndex] == null)
             dialogueIndex = 0;
@@ -198,18 +199,10 @@ public class Entity {
         dialogueIndex++;
         // LOOK IN MY EYES THE PLAYER
         switch (gamePanel.player.direction) {
-            case UP:
-                direction = DOWN;
-                break;
-            case DOWN :
-                direction = UP;
-                break;
-            case LEFT :
-                direction = RIGHT;
-                break;
-            case RIGHT:
-                direction = LEFT;
-                break;
+            case UP -> direction = DOWN;
+            case DOWN -> direction = UP;
+            case LEFT -> direction = RIGHT;
+            case RIGHT -> direction = LEFT;
         }
     }
 }

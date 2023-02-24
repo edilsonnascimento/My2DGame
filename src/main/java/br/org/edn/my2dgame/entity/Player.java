@@ -194,22 +194,8 @@ public class Player extends Entity {
         }
     }
 
-    private void damegeMonster(int monsterIndex) {
-        if(isCollision(monsterIndex)) {
-            Entity monster = gamePanel.monster[monsterIndex];
-            if(!monster.invincible) {
-                monster.life -= 1;
-                monster.invincible = TRUE;
-                if(monster.life <= 0 )
-                    monster.dying = TRUE;
-            }
-        }
-    }
-
-    private void contactMonster(int monsterIndex) {
-        if(isCollision(monsterIndex) && !invincible) {
-            life -=1;
-            invincible = TRUE;
+    private void pickUpObject(int index) {
+        if(isCollision(index)) {
         }
     }
 
@@ -219,56 +205,31 @@ public class Player extends Entity {
                 gamePanel.gameState = gamePanel.diologueState;
                 gamePanel.npc[index].speak();
             } else {
+                gamePanel.playSE(7);
                 attacking = TRUE;
             }
         }
     }
 
-    private void pickUpObject(int index) {
-        if(isCollision(index)) {
-            String objectName = isNull(gamePanel.objects[index]) ? "" : gamePanel.objects[index].name;
-            switch (objectName) {
-                case "Key" :
-                    hasKey++;
-                    gamePanel.playSE(1);
-                    gamePanel.objects[index] = null;
-                    gamePanel.ui.showMessage("You got a key!");
-                    break;
-                case "Door" :
-                    if(hasKey > 0) {
-                        gamePanel.playSE(3);
-                        gamePanel.objects[index] = null;
-                        hasKey--;
-                        gamePanel.ui.showMessage("You opened the door");
-                    } else {
-                        gamePanel.ui.showMessage("You need a key!");
-                    }
-                    break;
-                case "Boots" :
-                    gamePanel.playSE(2);
-                    speed += 2;
-                    gamePanel.objects[index] = null;
-                    gamePanel.ui.showMessage("Speed up!");
-                    break;
-                case "Chest" :
-                    gamePanel.ui.gameFinished = true;
-                    gamePanel.stopMusic();
-                    gamePanel.playSE(4);
-                    break;
-            }
-
+    private void contactMonster(int monsterIndex) {
+        if(isCollision(monsterIndex) && !invincible) {
+            gamePanel.playSE(6);
+            life -=1;
+            invincible = TRUE;
         }
     }
 
-    private boolean isCollision(int index) {
-        return index != NOT_OBJECTS;
-    }
-
-
-    private boolean isKeypressed() {
-        return keyHandler.upPressed || keyHandler.downPressed ||
-                keyHandler.leftPressed || keyHandler.rightPressed ||
-                keyHandler.enterPressed;
+    private void damegeMonster(int monsterIndex) {
+        if(isCollision(monsterIndex)) {
+            Entity monster = gamePanel.monster[monsterIndex];
+            if(!monster.invincible) {
+                gamePanel.playSE(5);
+                monster.life -= 1;
+                monster.invincible = TRUE;
+                if(monster.life <= 0 )
+                    monster.dying = TRUE;
+            }
+        }
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -330,4 +291,13 @@ public class Player extends Entity {
         graphics2D.setComposite(getInstance(SRC_OVER, 1f));
     }
 
+    private boolean isKeypressed() {
+        return keyHandler.upPressed || keyHandler.downPressed ||
+                keyHandler.leftPressed || keyHandler.rightPressed ||
+                keyHandler.enterPressed;
+    }
+
+    private boolean isCollision(int index) {
+        return index != NOT_OBJECTS;
+    }
 }
