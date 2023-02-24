@@ -97,7 +97,7 @@ public class TileManager {
                     col++;
                 }
                 if(col == gamePanel.maxWorldCol) {
-                    col =0;
+                    col = 0;
                     row++;
                 }
             }

@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static br.org.edn.my2dgame.main.Constants.*;
+import static java.awt.AlphaComposite.SRC_OVER;
+import static java.awt.AlphaComposite.getInstance;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.isNull;
@@ -112,18 +114,10 @@ public class Player extends Entity {
                 // IF NOT COLLISION, PLAYER CON MOVE
                 if (!collisionOn && !gamePanel.keyHandler.enterPressed) {
                     switch (direction) {
-                        case UP:
-                            worldY -= speed;
-                            break;
-                        case DOWN:
-                            worldY += speed;
-                            break;
-                        case LEFT:
-                            worldX -= speed;
-                            break;
-                        case RIGHT:
-                            worldX += speed;
-                            break;
+                        case UP-> worldY -= speed;
+                        case DOWN -> worldY += speed;
+                        case LEFT -> worldX -= speed;
+                        case RIGHT -> worldX += speed;
                     }
                 }
                 gamePanel.keyHandler.enterPressed = FALSE;
@@ -207,7 +201,7 @@ public class Player extends Entity {
                 monster.life -= 1;
                 monster.invincible = TRUE;
                 if(monster.life <= 0 )
-                    gamePanel.monster[monsterIndex] = null;
+                    monster.dying = TRUE;
             }
         }
     }
@@ -328,14 +322,12 @@ public class Player extends Entity {
         }
 
         if(invincible)
-            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+            graphics2D.setComposite(getInstance(SRC_OVER, 0.3f));
 
         graphics2D.drawImage(imagePlayer, tempScreenX, tempScreenY, null);
+
         // RESET
-        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-       // DEBUG
-//        graphics2D.setFont(new Font("Arial", Font.PLAIN, 26));
-//        graphics2D.setColor(Color.white);
-//        graphics2D.drawString("Invincible: " + invicibleCounter, 10, 400);
+        graphics2D.setComposite(getInstance(SRC_OVER, 1f));
     }
+
 }
