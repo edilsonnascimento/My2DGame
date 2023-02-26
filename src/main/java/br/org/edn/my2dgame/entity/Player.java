@@ -225,6 +225,7 @@ public class Player extends Entity {
                 gamePanel.playSE(5);
                 monster.life -= 1;
                 monster.invincible = TRUE;
+                monster.damageReaction();
                 if(monster.life <= 0 )
                     monster.dying = TRUE;
             }

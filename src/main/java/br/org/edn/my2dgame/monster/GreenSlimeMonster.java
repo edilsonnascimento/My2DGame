@@ -54,4 +54,10 @@ public class GreenSlimeMonster extends Entity {
             actionLockCounter = 0;
         }
     }
+
+    @Override
+    public void damageReaction() {
+        actionLockCounter = 0;
+        direction = gamePanel.player.direction;
+    }
 }
