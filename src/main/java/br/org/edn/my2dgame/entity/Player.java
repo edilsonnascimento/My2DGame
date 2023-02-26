@@ -19,6 +19,7 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     private final String directoyBaseImage = "/player/";
+    public boolean attackCancelad = FALSE;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -119,6 +120,14 @@ public class Player extends Entity {
                         case RIGHT -> worldX += speed;
                     }
                 }
+
+                if(keyHandler.enterPressed && !attackCancelad) {
+                    gamePanel.playSE(7);
+                    attacking = TRUE;
+                    spriteCounter = 0;
+                }
+
+                attackCancelad = FALSE;
                 gamePanel.keyHandler.enterPressed = FALSE;
 
                 spriteCounter++;
@@ -201,6 +210,7 @@ public class Player extends Entity {
     private void interactNPC(int index) {
         if(gamePanel.keyHandler.enterPressed) {
             if (isCollision(index)) {
+                attackCancelad = TRUE;
                 gamePanel.gameState = gamePanel.diologueState;
                 gamePanel.npc[index].speak();
             } else {

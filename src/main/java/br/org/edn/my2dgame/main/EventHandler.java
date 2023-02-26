@@ -36,8 +36,10 @@ public class EventHandler {
         int xDistance = Math.abs(gamePanel.player.worldX - previusEventX);
         int yDistance = Math.abs(gamePanel.player.worldY - previusEventY);
         int distance = Math.max(xDistance, yDistance);
-        if(distance > gamePanel.tileSize)
+        if(distance > gamePanel.tileSize) {
             canTouchEvent = TRUE;
+            gamePanel.player.attackCancelad = TRUE;
+        }
 
         if(canTouchEvent) {
             if (hit(27, 16, RIGHT))
@@ -49,6 +51,7 @@ public class EventHandler {
     }
     private void damegePit(int col, int row, int gameState) {
         gamePanel.gameState = gameState;
+        gamePanel.playSE(6);
         gamePanel.ui.currentDialogues = "You fall into a pit!";
         gamePanel.player.life -= 1;
         canTouchEvent = FALSE;
@@ -56,6 +59,7 @@ public class EventHandler {
 
     public void healingPool(int col, int row, int gameState) {
         gamePanel.gameState = gameState;
+        gamePanel.playSE(2);
         gamePanel.ui.currentDialogues = "You drink the water.\n Your life has been recovered.";
         gamePanel.player.life = gamePanel.player.maxLife;
     }
