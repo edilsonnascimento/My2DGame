@@ -2,6 +2,8 @@ package br.org.edn.my2dgame.entity;
 
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.KeyHandler;
+import br.org.edn.my2dgame.object.ShieldWoodObject;
+import br.org.edn.my2dgame.object.SwordNormalObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,7 +13,6 @@ import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static java.util.Objects.isNull;
 
 public class Player extends Entity {
     public static final int TIME_CHANG_IMAGE = 12;
@@ -52,8 +53,26 @@ public class Player extends Entity {
         direction = "down";
 
         // PLAYER SATUS
+        level = 1;
         maxLife = 6;
         life = 6;
+        strength = 1; // The more stregth he has, the more damage he gives.
+        dexterity = 1;  // The more dexterity he has, the less damege he receives.
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new SwordNormalObject(gamePanel);
+        currentShield = new ShieldWoodObject(gamePanel);
+        attack = getAttack(); // The total attack value is decided by strength and weapon
+        defense = getDefense(); // The total defense value is decided by dexterity and shield.
+    }
+
+    private int getAttack() {
+        return strength * currentWeapon.attackValue;
+    }
+
+    private int getDefense() {
+        return dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage(String path) {
