@@ -39,7 +39,6 @@ public class KeyHandler implements KeyListener {
                 if (code == KeyEvent.VK_ENTER) {
                     if (gamePanel.ui.commandNumber == 0) {
                         gamePanel.ui.titleScreenState = 1;
-                        gamePanel.playMusic(0);
                     }
                     if (gamePanel.ui.commandNumber == 1) {
                         // add later
@@ -64,7 +63,7 @@ public class KeyHandler implements KeyListener {
                     if (gamePanel.ui.commandNumber == 0) {
                         System.out.println("DO SOME FIGHTER SPECIFIC STUFF!");
                         gamePanel.gameState = gamePanel.playState;
-                        gamePanel.playMusic(0);
+                        //gamePanel.playMusic(0);
                     }
                     if (gamePanel.ui.commandNumber == 1) {
                         System.out.println("DO SOME THIEF SPECIFIC STUFF!");

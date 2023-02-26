@@ -16,11 +16,14 @@ public class CollisionChecker {
     }
 
     public void checkTitle(Entity entity) {
+
+        // Position solidArea actual
         int entityLeftWorldX = entity.worldX + entity.solidArea.x;
         int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
         int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 
+        //
         int entityLeftCol = entityLeftWorldX/gamePanel.tileSize;
         int entityRightCol = entityRightWorldX/gamePanel.tileSize;
         int entityTopRow = entityTopWorldY/gamePanel.tileSize;

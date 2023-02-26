@@ -44,6 +44,7 @@ public class Entity {
     boolean attacking = FALSE;
     public boolean alive = TRUE;
     public boolean dying = FALSE;
+    public boolean hpBarOn = FALSE;
 
     // COUNTER
     public int spriteCounter = 0;
@@ -51,6 +52,7 @@ public class Entity {
     public int standCounter = 0;
     public int invicibleCounter = 0;
     int dyingCounter = 0;
+    int hpBarCounter = 0;
 
     // CHARACTER STATUS
     public int type;
@@ -140,15 +142,37 @@ public class Entity {
                 if(spriteNum == 2) image = rigth2;
                 break;
         }
-        if(invincible)
-            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+
+        // MONSTER HP BAR
+        if(isMonster(type) && hpBarOn) {
+            double oneScale = (double) gamePanel.tileSize/maxLife;
+            double hpBarValue = oneScale*life;
+
+            graphics2D.setColor(new Color(35, 35, 35));
+            graphics2D.fillRect(screenX-1, screenY-16, gamePanel.tileSize+2, 12 );
+
+            graphics2D.setColor(new Color(255, 0, 30));
+            graphics2D.fillRect(screenX, screenY-15, (int)hpBarValue, 10);
+
+            hpBarCounter++;
+            if(hpBarCounter > ONE_SECOND) {
+                hpBarCounter = 0;
+                hpBarOn = FALSE;
+            }
+        }
+
+        if(invincible) {
+            hpBarOn = TRUE;
+            hpBarCounter = 0;
+            changeAlpha(graphics2D, 0.4f);
+        }
 
         if(dying)
             dyingAnimation(graphics2D);
 
         graphics2D.drawImage(image, screenX, screenY, null);
 
-        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        changeAlpha(graphics2D, 1f);
     }
     private void dyingAnimation(Graphics2D graphics2D) {
         dyingCounter++;

@@ -18,7 +18,6 @@ public class Player extends Entity {
     KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
-    public int hasKey;
     private final String directoyBaseImage = "/player/";
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {

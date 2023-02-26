@@ -27,6 +27,7 @@ public class Sound {
             clip.open(ais);
         } catch (Exception e) {
             System.out.println("Error loading sound: " + soundURL[i]);
+            e.printStackTrace();
         }
     }
 

@@ -13,4 +13,9 @@ public class Constants {
     public static final int TYPE_MONSTER = 2;
     public static final int FIVE_FRAMES = 5;
     public static final int TWENTY_FIVE_FRAMES = 25;
+    public static final int ONE_SECOND = 600;
+
+    public static boolean isMonster(int type) {
+        return type == TYPE_MONSTER;
+    }
 }

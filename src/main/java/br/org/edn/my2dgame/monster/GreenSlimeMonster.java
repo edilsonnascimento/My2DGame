@@ -10,11 +10,13 @@ import static br.org.edn.my2dgame.main.Constants.*;
 public class GreenSlimeMonster extends Entity {
     public GreenSlimeMonster(GamePanel gamePanel) {
         super(gamePanel);
+
         type = TYPE_MONSTER;
         name = "Green Slime";
         speed = 1;
-        maxLife = 4;
+        maxLife = 20;
         life = maxLife;
+
         solidArea.x = 3;
         solidArea.y = 18;
         solidArea.width = 42;
