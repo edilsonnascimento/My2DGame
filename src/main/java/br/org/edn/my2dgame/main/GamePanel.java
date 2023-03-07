@@ -57,6 +57,8 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
     public final int diologueState = 3;
+    public final int characterState = 4;
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screeWidth, screeHeight));
         this.setBackground(Color.black);
@@ -226,5 +228,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     public boolean isStateTitle() {
         return this.gameState == this.titleState;
+    }
+
+    public boolean isCharacterState() {
+        return this.gameState == this.characterState;
     }
 }
