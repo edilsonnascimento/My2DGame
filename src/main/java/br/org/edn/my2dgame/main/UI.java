@@ -7,9 +7,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.awt.RenderingHints.KEY_TEXT_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
+import static java.util.Objects.nonNull;
 
 public class UI {
 
@@ -21,8 +24,8 @@ public class UI {
     BufferedImage heartFull, heartHalf, heartBlanck;
     public Font safachrome;
     public boolean messageOn = false;
-    public String message = "";
-    int messageCounter = 0;
+    List<String> messages = new ArrayList();
+    List<Integer> messagesCounter = new ArrayList();
     public boolean gameFinished = false;
     public String currentDialogues = "";
     public int commandNumber = 0;
@@ -50,9 +53,9 @@ public class UI {
         }
     }
 
-    public void showMessage(String text) {
-        message = text;
-        messageOn = true;
+    public void addMessage(String text) {
+        messages.add(text);
+        messagesCounter.add(0);
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -62,8 +65,10 @@ public class UI {
             drawTitleScreen();
         }
         // PLAY STATE
-        if(gamePanel.isStateGamePlay())
+        if(gamePanel.isStateGamePlay()) {
             drawPlayerLife();
+            drawMessage();
+        }
 
         // PAUSE STATE
         if(gamePanel.isStateGamePause()) {
@@ -83,6 +88,28 @@ public class UI {
         if(gamePanel.isCharacterState()) {
            drawCharacterScreen();
         }
+    }
+
+    private void drawMessage() {
+        int messageX = gamePanel.tileSize;
+        int messageY = gamePanel.tileSize * 4;
+        setFont(purisaBold, graphics2D);
+        graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 32F));
+        for (int i = 0; i < messages.size(); i++) {
+            if(nonNull(messages.get(i))) {
+                graphics2D.setColor(Color.white);
+                graphics2D.drawString(messages.get(i), messageX + 2, messageY + 2);
+                int counter = messagesCounter.get(i) + 1;
+                messagesCounter.set(i, counter);
+                messageY += 50;
+
+                if(messagesCounter.get(i) > TWO_FRAMES) {
+                    messages.remove(i);
+                    messagesCounter.remove(i);
+                }
+            }
+        }
+        setFont(safachrome, graphics2D);
     }
 
     public void setFont(Font font, Graphics2D graphics2D) {
@@ -308,43 +335,6 @@ public class UI {
 
     private void selectOption(int x, int y) {
         graphics2D.drawString(">", x-gamePanel.tileSize, y);
-    }
-
-
-    private void drawPlayerScreen() {
-        if(gameFinished) {
-            graphics2D.setFont(purisaBold);
-            graphics2D.setColor(Color.WHITE);
-
-            String text = "You found the treasure!";
-            int textLength = (int) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
-            int x = gamePanel.screeWidth/2 - textLength/2;
-            int y = gamePanel.screeHeight/2 - (gamePanel.tileSize * 3);
-            graphics2D.drawString(text, x, y);
-
-            graphics2D.setFont(purisaBold);
-            graphics2D.setColor(Color.yellow);
-            text = "Congratulations";
-            textLength = (int) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
-            x = gamePanel.screeWidth/2 - textLength/2;
-            y = gamePanel.screeHeight/2 + (gamePanel.tileSize * 2);
-            graphics2D.drawString(text, x, y);
-
-            gamePanel.gameThread = null;
-        } else {
-            // MESSAGE
-            int hafTileSize = gamePanel.tileSize / 2;
-            if (messageOn) {
-                graphics2D.setFont(graphics2D.getFont().deriveFont(30F));
-                graphics2D.drawString(message, hafTileSize, gamePanel.tileSize * 5);
-
-                messageCounter++;
-                if (messageCounter > TWO_FRAMES) {
-                    messageCounter = 0;
-                    messageOn = false;
-                }
-            }
-        }
     }
 
     private void drawPauseScreen() {

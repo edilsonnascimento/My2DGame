@@ -242,7 +242,10 @@ public class Player extends Entity {
     private void contactMonster(int monsterIndex) {
         if(isCollision(monsterIndex) && !invincible) {
             gamePanel.playSE(6);
-            life -=1;
+            int damage = gamePanel.monster[monsterIndex].attack - defense;
+            if(damage < 0)
+                damage = 0;
+            life -= damage;
             invincible = TRUE;
         }
     }
@@ -252,12 +255,40 @@ public class Player extends Entity {
             Entity monster = gamePanel.monster[monsterIndex];
             if(!monster.invincible) {
                 gamePanel.playSE(5);
-                monster.life -= 1;
+                int damage = attack - monster.defense;
+                if(damage < 0)
+                    damage = 0;
+
+                monster.life -= damage;
+                gamePanel.ui.addMessage(damage + " damage!");
+
                 monster.invincible = TRUE;
                 monster.damageReaction();
-                if(monster.life <= 0 )
+                if(monster.life <= 0 ) {
                     monster.dying = TRUE;
+                    gamePanel.ui.addMessage("killed the " + monster.name + "!");
+                    gamePanel.ui.addMessage("Exp " + monster.exp);
+                    exp += monster.exp;
+                    checkLevelUp();
+                }
             }
+        }
+    }
+
+    private void checkLevelUp() {
+        if(exp >= nextLevelExp) {
+            level++;
+            nextLevelExp = nextLevelExp * 2;
+            maxLife += 2;
+            strength++;
+            dexterity++;
+            attack = getAttack();
+            defense = getDefense();
+
+            gamePanel.playSE(8);
+            gamePanel.gameState = gamePanel.diologueState;
+            gamePanel.ui.currentDialogues = "You are level " + level + " now!\n " +
+                                             "You feel stronger!";
         }
     }
 

@@ -62,6 +62,7 @@ public class EventHandler {
         gamePanel.playSE(2);
         gamePanel.ui.currentDialogues = "You drink the water.\n Your life has been recovered.";
         gamePanel.player.life = gamePanel.player.maxLife;
+        gamePanel.assetSetter.creatMonster();
     }
 
     public boolean hit(int col, int row, String reqDirection) {
@@ -86,7 +87,6 @@ public class EventHandler {
         gamePanel.player.solidArea.y = gamePanel.player.solidAreaDefaultY;
         eventRect[col][row].x = eventRect[col][row].eventRectangleDefaultX;
         eventRect[col][row].y = eventRect[col][row].eventRectangleDefaultY;
-
         return hit;
     }
 }
