@@ -49,6 +49,30 @@ public class KeyHandler implements KeyListener {
     private void characterState(int code) {
         if(code == VK_C)
             gamePanel.gameState = gamePanel.playState;
+        if(code == VK_W) {
+            if(gamePanel.ui.slotRow != 0) {
+                gamePanel.ui.slotRow--;
+                gamePanel.playSE(9);
+            }
+        }
+        if(code == VK_A) {
+            if(gamePanel.ui.slotCol != 0) {
+                gamePanel.ui.slotCol--;
+                gamePanel.playSE(9);
+            }
+        }
+        if(code == VK_S) {
+            if(gamePanel.ui.slotRow != 3) {
+                gamePanel.ui.slotRow++;
+                gamePanel.playSE(9);
+            }
+        }
+        if(code == VK_D) {
+            if(gamePanel.ui.slotCol != 4) {
+                gamePanel.ui.slotCol++;
+                gamePanel.playSE(9);
+            }
+        }
     }
 
     private void dialogueState(int code) {

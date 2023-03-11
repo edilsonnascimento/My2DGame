@@ -30,6 +30,8 @@ public class UI {
     public String currentDialogues = "";
     public int commandNumber = 0;
     public int titleScreenState = 0;
+    public int slotCol = 0;
+    public int slotRow = 0;
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -69,13 +71,11 @@ public class UI {
             drawPlayerLife();
             drawMessage();
         }
-
         // PAUSE STATE
         if(gamePanel.isStateGamePause()) {
             drawPlayerLife();
             drawPauseScreen();
         }
-
         // DIALOGUES STATE
         if(gamePanel.isStateDialogue()) {
             setFont(purisaBold, graphics2D);
@@ -83,10 +83,10 @@ public class UI {
             drawDialoguesScreen();
             setFont(safachrome, graphics2D);
         }
-
         // CHARACTER STATE
         if(gamePanel.isCharacterState()) {
            drawCharacterScreen();
+           drawInventory();
         }
     }
 
@@ -333,6 +333,66 @@ public class UI {
 
     }
 
+    private void drawInventory() {
+        //Draw frame
+        int frameX = gamePanel.tileSize * 9;
+        int frameY = gamePanel.tileSize;
+        int frameWidth = gamePanel.tileSize * 6;
+        int frameHeigth = gamePanel.tileSize * 5;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeigth);
+
+        // SLOT
+        final int slotXStart = frameX + 20;
+        final int slotYStart = frameY + 20;
+        int slotX = slotXStart;
+        int slotY = slotYStart;
+        int slotSize = gamePanel.tileSize + 3;
+
+        // DRAW PLAYER'S ITEMS
+        for (int i = 0; i < gamePanel.player.inventory.size(); i++) {
+            Entity entity = gamePanel.player.inventory.get(i);
+            graphics2D.drawImage(entity.down1, slotX, slotY, null);
+            slotX += slotSize;
+            // BRACK LINE
+            if(i == 4 || i == 9 || i == 14) {
+                slotX = slotXStart;
+                slotY = slotSize;
+            }
+        }
+
+        // CURSOR
+        int cursorX = slotXStart + (slotSize * slotCol);
+        int cursorY = slotYStart + (slotSize * slotRow);
+        int cursorWidth = gamePanel.tileSize;
+        int cursorHeigth = gamePanel.tileSize;
+
+        //DRAW CURSOR
+        graphics2D.setColor(Color.white);
+        graphics2D.setStroke(new BasicStroke(3));
+        graphics2D.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeigth, 10,10);
+
+        //DESCRIPTION FRAME
+        int dFrameX = frameX;
+        int dFrameY = frameY + frameHeigth;
+        int dFrameWidth = frameWidth;
+        int dFrameHeigth = gamePanel.tileSize * 3;
+        drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeigth);
+        //DRAW DESCRIPTION TEXT
+        int textX = dFrameX + 20;
+        int textY = dFrameY + gamePanel.tileSize;
+        graphics2D.setFont(graphics2D.getFont().deriveFont(25F));
+        int itemIndex = getItemIndexOnSlot();
+        if(itemIndex < gamePanel.player.inventory.size()) {
+            for (String line : gamePanel.player.inventory.get(itemIndex).description.split("\n")) {
+                graphics2D.drawString(line, textX, textY);
+                textY += 32;
+            }
+        }
+    }
+
+    private int getItemIndexOnSlot() {
+        return slotCol + (slotRow * 5);
+    }
     private void selectOption(int x, int y) {
         graphics2D.drawString(">", x-gamePanel.tileSize, y);
     }

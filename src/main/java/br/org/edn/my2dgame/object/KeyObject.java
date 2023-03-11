@@ -8,6 +8,7 @@ public class KeyObject extends Entity {
     public KeyObject(GamePanel gamePanel) {
         super(gamePanel);
         name = "Key";
-        down1 = setup("/objects/","key.png", gamePanel.tileSize, gamePanel.tileSize);
+        down1 = setup("/objects/","key", gamePanel.tileSize, gamePanel.tileSize);
+        description = "[" + name + "]\nIt opens a door.";
     }
 }

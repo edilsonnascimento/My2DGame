@@ -2,11 +2,14 @@ package br.org.edn.my2dgame.entity;
 
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.KeyHandler;
+import br.org.edn.my2dgame.object.KeyObject;
 import br.org.edn.my2dgame.object.ShieldWoodObject;
 import br.org.edn.my2dgame.object.SwordNormalObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import static br.org.edn.my2dgame.main.Constants.*;
 import static java.awt.AlphaComposite.SRC_OVER;
@@ -21,6 +24,8 @@ public class Player extends Entity {
     public final int screenY;
     private final String directoyBaseImage = "/player/";
     public boolean attackCancelad = FALSE;
+    public List<Entity> inventory = new ArrayList<>();
+    public final int maxInventory = 20;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -44,6 +49,7 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage(directoyBaseImage + "walking/");
         getPlayerAttackImage(directoyBaseImage + "attaking/");
+        setItems();
     }
 
     public void setDefaultValues() {
@@ -65,6 +71,12 @@ public class Player extends Entity {
         currentShield = new ShieldWoodObject(gamePanel);
         attack = getAttack(); // The total attack value is decided by strength and weapon
         defense = getDefense(); // The total defense value is decided by dexterity and shield.
+    }
+
+    public void setItems() {
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(new KeyObject(gamePanel));
     }
 
     private int getAttack() {
