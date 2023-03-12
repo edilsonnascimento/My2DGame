@@ -376,13 +376,14 @@ public class UI {
         int dFrameY = frameY + frameHeigth;
         int dFrameWidth = frameWidth;
         int dFrameHeigth = gamePanel.tileSize * 3;
-        drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeigth);
+
         //DRAW DESCRIPTION TEXT
         int textX = dFrameX + 20;
         int textY = dFrameY + gamePanel.tileSize;
         graphics2D.setFont(graphics2D.getFont().deriveFont(25F));
         int itemIndex = getItemIndexOnSlot();
         if(itemIndex < gamePanel.player.inventory.size()) {
+            drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeigth);
             for (String line : gamePanel.player.inventory.get(itemIndex).description.split("\n")) {
                 graphics2D.drawString(line, textX, textY);
                 textY += 32;
