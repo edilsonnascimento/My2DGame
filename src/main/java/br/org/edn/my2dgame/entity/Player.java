@@ -234,10 +234,25 @@ public class Player extends Entity {
     }
 
     private void pickUpObject(int index) {
-        if(isCollision(index)) {
-        }
+        if(isCollision(index))
+            captureObject(index);
     }
 
+    private void captureObject(int index) {
+        String text = "You cannot carry any more!";
+        Entity objectSelected = gamePanel.objects[index];
+        if(inventory.size() != maxInventory) {
+            inventory.add(objectSelected);
+            gamePanel.playSE(1);
+            text = "Got a " + objectSelected.name + "!";
+            removeObject(index);
+        }
+        gamePanel.ui.addMessage(text);
+    }
+
+    private void removeObject(int index) {
+        gamePanel.objects[index] = null;
+    }
     private void interactNPC(int index) {
         if(gamePanel.keyHandler.enterPressed) {
             if (isCollision(index)) {

@@ -356,7 +356,7 @@ public class UI {
             // BRACK LINE
             if(i == 4 || i == 9 || i == 14) {
                 slotX = slotXStart;
-                slotY = slotSize;
+                slotY += slotSize;
             }
         }
 

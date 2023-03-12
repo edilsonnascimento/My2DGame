@@ -62,6 +62,7 @@ public class CollisionChecker {
     }
 
     public int checkObject(Entity entity, boolean player) {
+        index = NOT_OBJECTS;
         for (int i = 0; i < gamePanel.objects.length; i++) {
             if(nonNull(gamePanel.objects[i])) {
                 // Get Entity's solid area position
