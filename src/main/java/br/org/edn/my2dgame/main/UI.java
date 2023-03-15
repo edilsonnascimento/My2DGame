@@ -78,6 +78,7 @@ public class UI {
         }
         // DIALOGUES STATE
         if(gamePanel.isStateDialogue()) {
+            graphics2D.setFont(graphics2D.getFont().deriveFont(Font.BOLD, 22F));
             setFont(purisaBold, graphics2D);
             drawPlayerLife();
             drawDialoguesScreen();

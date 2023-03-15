@@ -4,6 +4,7 @@ import br.org.edn.my2dgame.entity.NPCOldMan;
 import br.org.edn.my2dgame.monster.GreenSlimeMonster;
 import br.org.edn.my2dgame.object.AxeObject;
 import br.org.edn.my2dgame.object.KeyObject;
+import br.org.edn.my2dgame.object.PotionRedObject;
 import br.org.edn.my2dgame.object.ShieldBlueObject;
 
 public class AssetSetter {
@@ -76,5 +77,9 @@ public class AssetSetter {
         gamePanel.objects[i] = new ShieldBlueObject(gamePanel);
         gamePanel.objects[i].worldX = gamePanel.tileSize * 35;
         gamePanel.objects[i].worldY = gamePanel.tileSize * 21;
+        i++;
+        gamePanel.objects[i] = new PotionRedObject(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 22;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 27;
     }
 }

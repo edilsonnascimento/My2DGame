@@ -404,7 +404,8 @@ public class Player extends Entity {
                defense = getDefense();
             }
             if(isCosumable(selectItem.type)) {
-                // later
+                selectItem.use(this);
+                inventory.remove(itemIndex);
             }
         }
     }

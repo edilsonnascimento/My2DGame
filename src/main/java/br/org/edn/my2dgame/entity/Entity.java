@@ -131,6 +131,7 @@ public class Entity {
             }
         }
     }
+    public void use(Entity entity) {}
     public void draw(Graphics2D graphics2D) {
         BufferedImage image = null;
 
