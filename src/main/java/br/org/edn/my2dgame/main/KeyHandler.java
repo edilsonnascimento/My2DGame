@@ -8,7 +8,7 @@ import static java.awt.event.KeyEvent.*;
 public class KeyHandler implements KeyListener {
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
-    public boolean checkDrawTime;
+    public boolean checkDrawTime = Boolean.FALSE;
     private final GamePanel gamePanel;
 
     public KeyHandler(GamePanel gamePanel) {
@@ -49,30 +49,33 @@ public class KeyHandler implements KeyListener {
     private void characterState(int code) {
         if(code == VK_C)
             gamePanel.gameState = gamePanel.playState;
-        if(code == VK_W) {
+        if(upCommand(code) ) {
             if(gamePanel.ui.slotRow != 0) {
                 gamePanel.ui.slotRow--;
                 gamePanel.playSE(9);
             }
         }
-        if(code == VK_A) {
+        if(leftCommand(code)) {
             if(gamePanel.ui.slotCol != 0) {
                 gamePanel.ui.slotCol--;
                 gamePanel.playSE(9);
             }
         }
-        if(code == VK_S) {
+        if(downCommand(code)) {
             if(gamePanel.ui.slotRow != 3) {
                 gamePanel.ui.slotRow++;
                 gamePanel.playSE(9);
             }
         }
-        if(code == VK_D) {
+        if(rightCommand(code)) {
             if(gamePanel.ui.slotCol != 4) {
                 gamePanel.ui.slotCol++;
                 gamePanel.playSE(9);
             }
         }
+
+        if(code == VK_ENTER)
+            gamePanel.player.selectItem();
     }
 
     private void dialogueState(int code) {
@@ -87,11 +90,12 @@ public class KeyHandler implements KeyListener {
 
     private void playerState(int code) {
         setKeyEvent(code, true);
-        if(code == VK_P)
-                gamePanel.gameState = gamePanel.pauseState;
-        if(code == VK_C)
+        if(code == VK_P) {
+            gamePanel.gameState = gamePanel.pauseState;
+        }
+        if(code == VK_C) {
             gamePanel.gameState = gamePanel.characterState;
-
+        }
         // DEBUG
         if (code == VK_T)
             checkDrawTime = !checkDrawTime;
@@ -99,12 +103,12 @@ public class KeyHandler implements KeyListener {
 
     private void titleState(int code) {
         if(gamePanel.ui.titleScreenState == 0) {
-            if (code == VK_W || code == VK_UP) {
+            if (upCommand(code)) {
                 gamePanel.ui.commandNumber--;
                 if (gamePanel.ui.commandNumber < 0)
                     gamePanel.ui.commandNumber = 2;
             }
-            if (code == VK_S || code == VK_DOWN) {
+            if (downCommand(code)) {
                 gamePanel.ui.commandNumber++;
                 if (gamePanel.ui.commandNumber > 2)
                     gamePanel.ui.commandNumber = 0;
@@ -122,12 +126,12 @@ public class KeyHandler implements KeyListener {
             }
         }
         else if(gamePanel.ui.titleScreenState == 1) {
-            if (code == VK_W || code == VK_UP) {
+            if (upCommand(code)) {
                 gamePanel.ui.commandNumber--;
                 if (gamePanel.ui.commandNumber < 0)
                     gamePanel.ui.commandNumber = 3;
             }
-            if (code == VK_S || code == VK_DOWN) {
+            if (downCommand(code)) {
                 gamePanel.ui.commandNumber++;
                 if (gamePanel.ui.commandNumber > 3)
                     gamePanel.ui.commandNumber = 0;
@@ -163,17 +167,31 @@ public class KeyHandler implements KeyListener {
     }
 
     private void setKeyEvent(int code, boolean value) {
-        if(code == VK_W || code == VK_UP)
+        if(upCommand(code))
             upPressed = value;
-        if(code == VK_S || code == VK_DOWN)
+        if(downCommand(code))
             downPressed = value;
-        if(code == VK_A || code == VK_LEFT)
+        if(leftCommand(code))
             leftPressed = value;
-        if(code == VK_D || code == VK_RIGHT)
-            rightPressed = value;
-        if(code == VK_D || code == VK_RIGHT)
+        if(rightCommand(code))
             rightPressed = value;
         if(code == VK_ENTER)
             enterPressed = value;
+    }
+
+    private boolean rightCommand(int code) {
+        return code == VK_D || code == VK_RIGHT;
+    }
+
+    private boolean leftCommand(int code) {
+        return code == VK_A || code == VK_LEFT;
+    }
+
+    private boolean upCommand(int code) {
+        return code == VK_W || code == VK_UP;
+    }
+
+    private boolean downCommand(int code) {
+        return code == VK_S || code == VK_DOWN;
     }
 }

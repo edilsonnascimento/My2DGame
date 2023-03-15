@@ -10,6 +10,7 @@ public class NPCOldMan extends Entity {
 
     public NPCOldMan(GamePanel gamePanel) {
         super(gamePanel);
+        type = TYPE_NPC;
         direction = DOWN;
         speed = 1;
         getNpcImage("/npc/");

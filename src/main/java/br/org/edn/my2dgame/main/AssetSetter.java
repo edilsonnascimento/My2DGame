@@ -2,7 +2,9 @@ package br.org.edn.my2dgame.main;
 
 import br.org.edn.my2dgame.entity.NPCOldMan;
 import br.org.edn.my2dgame.monster.GreenSlimeMonster;
+import br.org.edn.my2dgame.object.AxeObject;
 import br.org.edn.my2dgame.object.KeyObject;
+import br.org.edn.my2dgame.object.ShieldBlueObject;
 
 public class AssetSetter {
     GamePanel gamePanel;
@@ -11,9 +13,9 @@ public class AssetSetter {
     }
 
     public void setObject() {
-           creatNPC();
-           creatMonster();
-           createKeys();
+       creatNPC();
+       creatMonster();
+       createObjects();
     }
 
     public void creatNPC() {
@@ -49,7 +51,7 @@ public class AssetSetter {
         gamePanel.monster[i].worldY = gamePanel.tileSize * 37;
     }
 
-    private void createKeys() {
+    private void createObjects() {
         int i = 0;
         gamePanel.objects[i] = new KeyObject(gamePanel);
         gamePanel.objects[i].worldX = gamePanel.tileSize * 25;
@@ -67,5 +69,12 @@ public class AssetSetter {
         gamePanel.objects[i].worldX = gamePanel.tileSize * 16;
         gamePanel.objects[i].worldY = gamePanel.tileSize * 22;
         i++;
+        gamePanel.objects[i] = new AxeObject(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 33;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 21;
+        i++;
+        gamePanel.objects[i] = new ShieldBlueObject(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 35;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 21;
     }
 }

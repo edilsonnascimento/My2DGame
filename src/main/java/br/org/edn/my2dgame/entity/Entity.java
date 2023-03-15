@@ -55,7 +55,6 @@ public class Entity {
     int hpBarCounter = 0;
 
     // CHARACTER STATUS
-    public int type;
     public String name;
     public int speed;
     public int maxLife;
@@ -75,7 +74,10 @@ public class Entity {
     public int attackValue;
     public int defenseValue;
     public String description = "";
-    
+
+    // TYPE
+    public int type;
+
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }

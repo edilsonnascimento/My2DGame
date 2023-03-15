@@ -1,5 +1,6 @@
 package br.org.edn.my2dgame.entity;
 
+import br.org.edn.my2dgame.main.Constants;
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.KeyHandler;
 import br.org.edn.my2dgame.object.KeyObject;
@@ -22,7 +23,6 @@ public class Player extends Entity {
     KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
-    private final String directoyBaseImage = "/player/";
     public boolean attackCancelad = FALSE;
     public List<Entity> inventory = new ArrayList<>();
     public final int maxInventory = 20;
@@ -30,11 +30,12 @@ public class Player extends Entity {
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
 
+        type = TYPE_PLAYER;
         this.keyHandler = keyHandler;
 
         screenX = gamePanel.screeWidth/2 - (gamePanel.tileSize/2);
         screenY = gamePanel.screeHeight/2 - (gamePanel.tileSize/2);
-
+        // SOLID AREA
         solidArea = new Rectangle();
         solidArea.x = 0;
         solidArea.y = 0;
@@ -43,12 +44,9 @@ public class Player extends Entity {
         solidArea.width = 23;
         solidArea.height = 30;
 
-        attackArea.width = 36;
-        attackArea.height = 36;
-
         setDefaultValues();
-        getPlayerImage(directoyBaseImage + "walking/");
-        getPlayerAttackImage(directoyBaseImage + "attaking/");
+        getPlayerImage(DIRECTORY_WALKING);
+        getPlayerAttackImage(DIRECTORY_ATTACKING);
         setItems();
     }
 
@@ -80,6 +78,7 @@ public class Player extends Entity {
     }
 
     private int getAttack() {
+        attackArea = currentWeapon.attackArea;
         return strength * currentWeapon.attackValue;
     }
 
@@ -98,14 +97,27 @@ public class Player extends Entity {
         rigth2 = setup(path,"boy_right_2", gamePanel.tileSize, gamePanel.tileSize);
     }
     private void getPlayerAttackImage(String path) {
-        attackUp1 = setup(path, "boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackUp2 = setup(path, "boy_attack_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackDow1 = setup(path, "boy_attack_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackDow2 = setup(path, "boy_attack_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
-        attackLeft1 = setup(path, "boy_attack_left_1", gamePanel.tileSize * 2, gamePanel.tileSize );
-        attackLeft2 = setup(path, "boy_attack_left_2", gamePanel.tileSize * 2 , gamePanel.tileSize);
-        attackRight1 = setup(path, "boy_attack_right_1", gamePanel.tileSize *2 , gamePanel.tileSize);
-        attackRight2 = setup(path, "boy_attack_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        if(Constants.isSword(currentWeapon.type)) {
+            attackUp1 = setup(path, "boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackUp2 = setup(path, "boy_attack_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDow1 = setup(path, "boy_attack_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDow2 = setup(path, "boy_attack_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackLeft1 = setup(path, "boy_attack_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackLeft2 = setup(path, "boy_attack_left_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight1 = setup(path, "boy_attack_right_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight2 = setup(path, "boy_attack_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        }
+
+        if(Constants.isAxe(currentWeapon.type)) {
+            attackUp1 = setup(path, "boy_axe_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackUp2 = setup(path, "boy_axe_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDow1 = setup(path, "boy_axe_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDow2 = setup(path, "boy_axe_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackLeft1 = setup(path, "boy_axe_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackLeft2 = setup(path, "boy_axe_left_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight1 = setup(path, "boy_axe_right_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight2 = setup(path, "boy_axe_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        }
     }
 
     public void update() {
@@ -376,6 +388,25 @@ public class Player extends Entity {
 
         // RESET
         graphics2D.setComposite(getInstance(SRC_OVER, 1f));
+    }
+
+    public void selectItem() {
+        int itemIndex = gamePanel.ui.getItemIndexOnSlot();
+        if(itemIndex < inventory.size()) {
+            Entity selectItem = inventory.get(itemIndex);
+            if(isSword(selectItem.type) || isAxe(selectItem.type)) {
+                currentWeapon = selectItem;
+                attack = getAttack();
+                getPlayerAttackImage(DIRECTORY_ATTACKING);
+            }
+            if(isShield(selectItem.type)) {
+               currentShield = selectItem;
+               defense = getDefense();
+            }
+            if(isCosumable(selectItem.type)) {
+                // later
+            }
+        }
     }
 
     private boolean isKeypressed() {

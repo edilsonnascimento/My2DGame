@@ -351,6 +351,12 @@ public class UI {
         // DRAW PLAYER'S ITEMS
         for (int i = 0; i < gamePanel.player.inventory.size(); i++) {
             Entity entity = gamePanel.player.inventory.get(i);
+
+            // EQUIP CURSOR
+            if(entity == gamePanel.player.currentWeapon || entity == gamePanel.player.currentShield) {
+                graphics2D.setColor(new Color(240, 190, 90));
+                graphics2D.fillRoundRect(slotX, slotY, gamePanel.tileSize, gamePanel.tileSize, 10, 10);
+            }
             graphics2D.drawImage(entity.down1, slotX, slotY, null);
             slotX += slotSize;
             // BRACK LINE
@@ -380,7 +386,7 @@ public class UI {
         //DRAW DESCRIPTION TEXT
         int textX = dFrameX + 20;
         int textY = dFrameY + gamePanel.tileSize;
-        graphics2D.setFont(graphics2D.getFont().deriveFont(25F));
+        graphics2D.setFont(graphics2D.getFont().deriveFont(24F));
         int itemIndex = getItemIndexOnSlot();
         if(itemIndex < gamePanel.player.inventory.size()) {
             drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeigth);
@@ -391,7 +397,7 @@ public class UI {
         }
     }
 
-    private int getItemIndexOnSlot() {
+    public int getItemIndexOnSlot() {
         return slotCol + (slotRow * 5);
     }
     private void selectOption(int x, int y) {
@@ -444,5 +450,13 @@ public class UI {
     private int getXForAlignToRightText(String text, int tailX) {
         int length = (int) graphics2D.getFontMetrics().getStringBounds(text, graphics2D).getWidth();
         return tailX - length;
+    }
+
+    public void drawDebug(long time) {
+        graphics2D.setColor(Color.white);
+        setFont(purisaBold, graphics2D);
+        graphics2D.setFont(graphics2D.getFont().deriveFont(25F));
+        graphics2D.drawString("Draw Time: " + time, 10, 400);
+        setFont(safachrome, graphics2D);
     }
 }
