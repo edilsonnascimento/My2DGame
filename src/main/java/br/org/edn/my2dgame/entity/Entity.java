@@ -214,10 +214,8 @@ public class Entity {
             changeAlpha(graphics2D, 0f);
         if(dyingCounter > i*7 && dyingCounter <= i*8)
             changeAlpha(graphics2D, 1f);
-        if(dyingCounter > i*8) {
-            dying = FALSE;
+        if(dyingCounter > i*8)
             alive = FALSE;
-        }
     }
 
     private void changeAlpha(Graphics2D graphics2D, float alphaValue) {

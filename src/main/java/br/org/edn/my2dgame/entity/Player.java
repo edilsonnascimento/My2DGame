@@ -279,7 +279,7 @@ public class Player extends Entity {
     }
 
     private void contactMonster(int monsterIndex) {
-        if(isCollision(monsterIndex) && !invincible) {
+        if(isCollision(monsterIndex) && !invincible && !gamePanel.monster[monsterIndex].dying) {
             gamePanel.playSE(6);
             int damage = gamePanel.monster[monsterIndex].attack - defense;
             if(damage < 0)
