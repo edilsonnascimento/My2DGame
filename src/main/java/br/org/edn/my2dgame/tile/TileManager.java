@@ -75,7 +75,7 @@ public class TileManager {
         UtilityTool utilityTool = new UtilityTool();
         try {
             tiles[index] = new Tile();
-            tiles[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/" + imageName + ".png"));
+            tiles[index].image = ImageIO.read(getClass().getResourceAsStream("/tile/" + imageName + ".png"));
             tiles[index].image = utilityTool.scaleImage(tiles[index].image, gamePanel.tileSize, gamePanel.tileSize);
             tiles[index].coolision = collision;
         } catch (IOException e) {
