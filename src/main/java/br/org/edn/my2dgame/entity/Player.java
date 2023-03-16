@@ -61,6 +61,8 @@ public class Player extends Entity {
         level = 1;
         maxLife = 6;
         life = 6;
+        maxMana = 4;
+        mana = maxMana;
         strength = 1; // The more stregth he has, the more damage he gives.
         dexterity = 1;  // The more dexterity he has, the less damege he receives.
         exp = 0;
@@ -191,9 +193,13 @@ public class Player extends Entity {
                     }
                 }
             }
-            if(gamePanel.keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30) {
+            if(gamePanel.keyHandler.shotKeyPressed && !projectile.alive &&
+                    shotAvailableCounter == 30 && projectile.haveResource(this)) {
                 // SET DEFAULT COORDNATES, DIRECTION AND USER
                 projectile.set(worldX, worldY, direction, TRUE, this);
+
+                // SUBTRACT THE COST (MANA, AMMO ETC.)
+                projectile.subtractResource(this);
 
                 // ADD IT TO THE LIST
                 gamePanel.projectiles.add(projectile);
@@ -210,6 +216,8 @@ public class Player extends Entity {
                     invicibleCounter = 0;
                 }
             }
+            if(shotAvailableCounter < 30)
+                shotAvailableCounter ++;
         }
     }
 

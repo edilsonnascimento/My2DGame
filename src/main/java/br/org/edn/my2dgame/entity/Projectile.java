@@ -7,7 +7,7 @@ import static java.lang.Boolean.FALSE;
 
 public class Projectile extends Entity {
 
-    private Entity user;
+    protected Entity user;
 
     public Projectile(GamePanel gamePanel) {
         super(gamePanel);
@@ -53,5 +53,10 @@ public class Projectile extends Entity {
           spriteNum = 1;
         }
         spriteCounter = 0;
-    };
+    }
+
+    public boolean haveResource(Entity user) {
+        return FALSE;
+    }
+    public void subtractResource(Entity user) {}
 }

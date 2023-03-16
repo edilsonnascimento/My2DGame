@@ -1,5 +1,6 @@
 package br.org.edn.my2dgame.object;
 
+import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.entity.Projectile;
 import br.org.edn.my2dgame.main.GamePanel;
 
@@ -30,5 +31,15 @@ public class FireballObject extends Projectile {
         left2 = setup(path,"fireball_left_2", gamePanel.tileSize, gamePanel.tileSize);
         rigth1 = setup(path,"fireball_right_1", gamePanel.tileSize, gamePanel.tileSize);
         rigth2 = setup(path,"fireball_right_2", gamePanel.tileSize, gamePanel.tileSize);
+    }
+
+    @Override
+    public boolean haveResource(Entity user) {
+        return user.mana >= useCost;
+    }
+
+    @Override
+    public void subtractResource(Entity user) {
+        user.mana -= useCost;
     }
 }

@@ -23,7 +23,7 @@ public class Entity {
     public BufferedImage up1, up2, down1, down2, left1, left2, rigth1, rigth2;
     public BufferedImage attackUp1, attackUp2, attackDow1, attackDow2, attackLeft1, attackLeft2,
     attackRight1, attackRight2;
-    public BufferedImage heartFull, heartBlank, heartHalf;
+    public BufferedImage heartFull, heartBlank, heartHalf, crystal_full, crystal_blank;
 
     // SOLID AREA
     public Rectangle solidArea = new Rectangle(0, 0, 34, 40);
