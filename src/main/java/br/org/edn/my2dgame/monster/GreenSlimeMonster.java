@@ -29,18 +29,18 @@ public class GreenSlimeMonster extends Entity {
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        getImage();
+        getImage(DIRECTORY_BASE_IMAGE_MONSTER);
     }
 
-    public void getImage() {
-        up1 = setup("/monster/", "greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
-        up2 = setup("/monster/", "greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
-        down1 = setup("/monster/", "greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
-        down2 = setup("/monster/", "greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
-        left1 = setup("/monster/", "greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
-        left2 = setup("/monster/", "greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
-        rigth1 = setup("/monster/", "greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
-        rigth2 = setup("/monster/", "greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
+    public void getImage(String path) {
+        up1 = setup(path, "greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        up2 = setup(path, "greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
+        down1 = setup(path, "greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        down2 = setup(path, "greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
+        left1 = setup(path, "greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        left2 = setup(path, "greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
+        rigth1 = setup(path, "greenslime_down_1", gamePanel.tileSize, gamePanel.tileSize);
+        rigth2 = setup(path, "greenslime_down_2", gamePanel.tileSize, gamePanel.tileSize);
     }
 
     public void setAction() {

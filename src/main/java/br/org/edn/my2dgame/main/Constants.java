@@ -23,6 +23,11 @@ public class Constants {
     public static final String DIRECTORY_BASE_IMAGE_PROJECTILE = "/projectile/";
     public static final String DIRECTORY_WALKING = DIRECTORY_BASE_IMAGE_PLAYER + "walking/";
     public static final String DIRECTORY_ATTACKING = DIRECTORY_BASE_IMAGE_PLAYER + "attacking/";
+    public static final String DIRECTORY_BASE_IMAGE_MONSTER = "/monster/";
+    public static final String DIRECTORY_BASE_SOUND = "/sounds/";
+    public static final String EXTENSION_WAV = ".wav";
+    public static final String EXTENSION_PNG = ".png";
+
 
     public static boolean isMonster(int type) {
         return type == TYPE_MONSTER;

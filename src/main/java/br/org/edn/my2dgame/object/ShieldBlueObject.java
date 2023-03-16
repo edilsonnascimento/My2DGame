@@ -3,6 +3,7 @@ package br.org.edn.my2dgame.object;
 import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.main.GamePanel;
 
+import static br.org.edn.my2dgame.main.Constants.DIRECTORY_BASE_IMAGE_OBJECT;
 import static br.org.edn.my2dgame.main.Constants.TYPE_SHIELD;
 
 public class ShieldBlueObject extends Entity {
@@ -12,7 +13,7 @@ public class ShieldBlueObject extends Entity {
 
         type = TYPE_SHIELD;
         name = "Blue Shield";
-        down1 = setup("/objects/", "shield_blue", gamePanel.tileSize, gamePanel.tileSize);
+        down1 = setup(DIRECTORY_BASE_IMAGE_OBJECT, "shield_blue", gamePanel.tileSize, gamePanel.tileSize);
         defenseValue = 2;
         description = "[" + name + "]\nA shiny shield.";
     }

@@ -5,22 +5,25 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.net.URL;
 
+import static br.org.edn.my2dgame.main.Constants.DIRECTORY_BASE_SOUND;
+import static br.org.edn.my2dgame.main.Constants.EXTENSION_WAV;
+
 public class Sound {
     Clip clip;
     URL soundURL[] = new URL[30];
 
     public Sound() {
-        soundURL[0] = getClass().getResource("/sounds/BlueBoyAdventure.wav");
-        soundURL[1] = getClass().getResource("/sounds/coin.wav");
-        soundURL[2] = getClass().getResource("/sounds/powerup.wav");
-        soundURL[3] = getClass().getResource("/sounds/unlock.wav");
-        soundURL[4] = getClass().getResource("/sounds/fanfare.wav");
-        soundURL[5] = getClass().getResource("/sounds/hitmonster.wav");
-        soundURL[6] = getClass().getResource("/sounds/receivedamage.wav");
-        soundURL[7] = getClass().getResource("/sounds/parry.wav");
-        soundURL[8] = getClass().getResource("/sounds/levelup.wav");
-        soundURL[9] = getClass().getResource("/sounds/cursor.wav");
-        soundURL[10] = getClass().getResource("/sounds/burning.wav");
+        soundURL[0] = getClass().getResource(DIRECTORY_BASE_SOUND + "BlueBoyAdventure" + EXTENSION_WAV);
+        soundURL[1] = getClass().getResource(DIRECTORY_BASE_SOUND + "coin" + EXTENSION_WAV);
+        soundURL[2] = getClass().getResource(DIRECTORY_BASE_SOUND + "powerup" + EXTENSION_WAV);
+        soundURL[3] = getClass().getResource(DIRECTORY_BASE_SOUND + "unlock" + EXTENSION_WAV);
+        soundURL[4] = getClass().getResource(DIRECTORY_BASE_SOUND + "fanfare" + EXTENSION_WAV);
+        soundURL[5] = getClass().getResource(DIRECTORY_BASE_SOUND + "hitmonster" + EXTENSION_WAV);
+        soundURL[6] = getClass().getResource(DIRECTORY_BASE_SOUND + "receivedamage" + EXTENSION_WAV);
+        soundURL[7] = getClass().getResource(DIRECTORY_BASE_SOUND + "parry" + EXTENSION_WAV);
+        soundURL[8] = getClass().getResource(DIRECTORY_BASE_SOUND + "levelup" + EXTENSION_WAV);
+        soundURL[9] = getClass().getResource(DIRECTORY_BASE_SOUND + "cursor" + EXTENSION_WAV);
+        soundURL[10] = getClass().getResource(DIRECTORY_BASE_SOUND + "burning" + EXTENSION_WAV);
     }
 
     public void setFile(int i) {

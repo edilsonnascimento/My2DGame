@@ -238,7 +238,7 @@ public class Entity {
         BufferedImage bufferedImage = null;
 
         try {
-            bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath + imageName + ".png"));
+            bufferedImage = ImageIO.read(getClass().getResourceAsStream(imagePath + imageName + EXTENSION_PNG));
             bufferedImage = utilityTool.scaleImage(bufferedImage, width, height);
         } catch (IOException e) {
             System.out.println("ERROR LOAD IMAGE: " + imagePath + imageName);
