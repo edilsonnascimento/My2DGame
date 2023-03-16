@@ -210,10 +210,6 @@ public class Player extends Entity {
                     invicibleCounter = 0;
                 }
             }
-            if(shotAvailableCounter < 30) {
-                shotAvailableCounter ++;
-
-            }
         }
     }
 

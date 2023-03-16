@@ -2,10 +2,12 @@ package br.org.edn.my2dgame.monster;
 
 import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.main.GamePanel;
+import br.org.edn.my2dgame.object.RockObject;
 
 import java.util.Random;
 
 import static br.org.edn.my2dgame.main.Constants.*;
+import static java.lang.Boolean.TRUE;
 
 public class GreenSlimeMonster extends Entity {
     public GreenSlimeMonster(GamePanel gamePanel) {
@@ -19,6 +21,7 @@ public class GreenSlimeMonster extends Entity {
         attack = 5;
         defense = 0;
         exp = 2;
+        projectile = new RockObject(gamePanel);
 
         solidArea.x = 3;
         solidArea.y = 18;
@@ -55,6 +58,12 @@ public class GreenSlimeMonster extends Entity {
             if (i > 75 && i <= 100)
                 direction = "right";
             actionLockCounter = 0;
+        }
+        int i = new Random().nextInt(100) + 1;
+        if(i > 99 && !projectile.alive && shotAvailableCounter == 30) {
+            projectile.set(worldX, worldY, direction, TRUE, this);
+            gamePanel.projectiles.add(projectile);
+            shotAvailableCounter = 0;
         }
     }
 

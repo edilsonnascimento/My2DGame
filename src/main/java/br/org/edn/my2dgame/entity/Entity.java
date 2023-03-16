@@ -53,7 +53,7 @@ public class Entity {
     public int invicibleCounter = 0;
     int dyingCounter = 0;
     int hpBarCounter = 0;
-    int shotAvailableCounter = 0;
+    public int shotAvailableCounter = 0;
 
     // CHARACTER STATUS
     public String name;
@@ -99,14 +99,8 @@ public class Entity {
         gamePanel.collisionChecker.checkEntity(this, gamePanel.monster);
         boolean contactPlayer = gamePanel.collisionChecker.checkPlayer(this);
 
-        if(this.type == TYPE_MONSTER && contactPlayer && !gamePanel.player.invincible) {
-            gamePanel.playSE(6);
-            int damage = attack - gamePanel.player.defense;
-            if(damage < 0)
-                damage = 0;
-            gamePanel.player.life -= damage;
-            gamePanel.player.invincible = TRUE;
-        }
+        if(this.type == TYPE_MONSTER && contactPlayer)
+            damagePlayer(attack);
 
         // IF NOT COLLISION, PLAYER CON MOVE
         if(!collisionOn) {
@@ -134,6 +128,18 @@ public class Entity {
                 invincible = FALSE;
                 invicibleCounter = 0;
             }
+        }
+        if(shotAvailableCounter < 30)
+            shotAvailableCounter ++;
+    }
+    public void damagePlayer(int attack){
+        if(!gamePanel.player.invincible) {
+            gamePanel.playSE(6);
+            int damage = attack - gamePanel.player.defense;
+            if (damage < 0)
+                damage = 0;
+            gamePanel.player.life -= damage;
+            gamePanel.player.invincible = TRUE;
         }
     }
     public void use(Entity entity) {}
