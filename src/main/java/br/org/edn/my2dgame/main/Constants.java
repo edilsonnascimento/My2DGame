@@ -20,6 +20,7 @@ public class Constants {
     public static final int ONE_SECOND = 600;
     public static final String DIRECTORY_BASE_IMAGE_PLAYER = "/player/";
     public static final String DIRECTORY_BASE_IMAGE_OBJECT = "/objects/";
+    public static final String DIRECTORY_BASE_IMAGE_PROJECTILE = "/projectile/";
     public static final String DIRECTORY_WALKING = DIRECTORY_BASE_IMAGE_PLAYER + "walking/";
     public static final String DIRECTORY_ATTACKING = DIRECTORY_BASE_IMAGE_PLAYER + "attacking/";
 
@@ -37,5 +38,8 @@ public class Constants {
     }
     public static boolean isCosumable(int type) {
         return type == TYPE_CONSUMABLE;
+    }
+    public static boolean isCollision(int index) {
+            return index != NOT_OBJECTS;
     }
 }

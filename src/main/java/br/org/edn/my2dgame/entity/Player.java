@@ -3,6 +3,7 @@ package br.org.edn.my2dgame.entity;
 import br.org.edn.my2dgame.main.Constants;
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.KeyHandler;
+import br.org.edn.my2dgame.object.FireballObject;
 import br.org.edn.my2dgame.object.KeyObject;
 import br.org.edn.my2dgame.object.ShieldWoodObject;
 import br.org.edn.my2dgame.object.SwordNormalObject;
@@ -67,6 +68,7 @@ public class Player extends Entity {
         coin = 0;
         currentWeapon = new SwordNormalObject(gamePanel);
         currentShield = new ShieldWoodObject(gamePanel);
+        projectile = new FireballObject(gamePanel);
         attack = getAttack(); // The total attack value is decided by strength and weapon
         defense = getDefense(); // The total defense value is decided by dexterity and shield.
     }
@@ -189,6 +191,17 @@ public class Player extends Entity {
                     }
                 }
             }
+            if(gamePanel.keyHandler.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30) {
+                // SET DEFAULT COORDNATES, DIRECTION AND USER
+                projectile.set(worldX, worldY, direction, TRUE, this);
+
+                // ADD IT TO THE LIST
+                gamePanel.projectiles.add(projectile);
+
+                shotAvailableCounter = 0;
+
+                gamePanel.playSE(10);
+            }
             // This needs to be outSide of key if statement!
             if (invincible) {
                 invicibleCounter++;
@@ -196,6 +209,10 @@ public class Player extends Entity {
                     invincible = FALSE;
                     invicibleCounter = 0;
                 }
+            }
+            if(shotAvailableCounter < 30) {
+                shotAvailableCounter ++;
+
             }
         }
     }
@@ -229,7 +246,7 @@ public class Player extends Entity {
 
             // Check monster collision with the updated worldX, worldY and solidArea
             int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monster);
-            damegeMonster(monsterIndex);
+            damageMonster(monsterIndex, attack);
 
             // After checking collision, resotre the original data
             worldX = currentWorldX;
@@ -289,7 +306,7 @@ public class Player extends Entity {
         }
     }
 
-    private void damegeMonster(int monsterIndex) {
+    public void damageMonster(int monsterIndex, int attack) {
         if(isCollision(monsterIndex)) {
             Entity monster = gamePanel.monster[monsterIndex];
             if(!monster.invincible) {
@@ -416,7 +433,5 @@ public class Player extends Entity {
                 keyHandler.enterPressed;
     }
 
-    private boolean isCollision(int index) {
-        return index != NOT_OBJECTS;
-    }
+
 }
