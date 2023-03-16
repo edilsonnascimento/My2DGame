@@ -3,10 +3,7 @@ package br.org.edn.my2dgame.entity;
 import br.org.edn.my2dgame.main.Constants;
 import br.org.edn.my2dgame.main.GamePanel;
 import br.org.edn.my2dgame.main.KeyHandler;
-import br.org.edn.my2dgame.object.FireballObject;
-import br.org.edn.my2dgame.object.KeyObject;
-import br.org.edn.my2dgame.object.ShieldWoodObject;
-import br.org.edn.my2dgame.object.SwordNormalObject;
+import br.org.edn.my2dgame.object.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -63,6 +60,7 @@ public class Player extends Entity {
         life = 6;
         maxMana = 4;
         mana = maxMana;
+        ammo = 10;
         strength = 1; // The more stregth he has, the more damage he gives.
         dexterity = 1;  // The more dexterity he has, the less damege he receives.
         exp = 0;
@@ -71,6 +69,7 @@ public class Player extends Entity {
         currentWeapon = new SwordNormalObject(gamePanel);
         currentShield = new ShieldWoodObject(gamePanel);
         projectile = new FireballObject(gamePanel);
+        //projectile = new RockObject(gamePanel);
         attack = getAttack(); // The total attack value is decided by strength and weapon
         defense = getDefense(); // The total defense value is decided by dexterity and shield.
     }

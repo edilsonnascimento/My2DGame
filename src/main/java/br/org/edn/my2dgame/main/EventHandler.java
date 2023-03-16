@@ -60,7 +60,7 @@ public class EventHandler {
     public void healingPool(int col, int row, int gameState) {
         gamePanel.gameState = gameState;
         gamePanel.playSE(2);
-        gamePanel.ui.currentDialogues = "You drink the water.\n Your life has been recovered.";
+        gamePanel.ui.currentDialogues = "You drink the water.\n Your life and mana have been recovered.";
         gamePanel.player.life = gamePanel.player.maxLife;
         gamePanel.player.mana = gamePanel.player.maxMana;
         gamePanel.assetSetter.creatMonster();

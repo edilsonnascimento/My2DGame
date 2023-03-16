@@ -1,5 +1,6 @@
 package br.org.edn.my2dgame.object;
 
+import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.entity.Projectile;
 import br.org.edn.my2dgame.main.GamePanel;
 
@@ -30,5 +31,15 @@ public class RockObject extends Projectile {
         left2 = setup(path, "rock_down_1", gamePanel.tileSize, gamePanel.tileSize);
         rigth1 = setup(path, "rock_down_1", gamePanel.tileSize, gamePanel.tileSize);
         rigth2 = setup(path, "rock_down_1", gamePanel.tileSize, gamePanel.tileSize);
+    }
+
+    @Override
+    public boolean haveResource(Entity user) {
+        return user.ammo >= useCost;
+    }
+
+    @Override
+    public void subtractResource(Entity user) {
+        user.ammo -= useCost;
     }
 }
