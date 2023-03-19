@@ -154,58 +154,56 @@ public class Entity {
                 worldX - gamePanel.tileSize < gamePanel.player.worldX + gamePanel.player.screenX &&
                 worldY + gamePanel.tileSize > gamePanel.player.worldY - gamePanel.player.screenY &&
                 worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY) {
-            graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
-        }
 
-        switch (direction) {
-            case UP :
-                if(spriteNum == 1) image = up1;
-                if(spriteNum == 2) image = up2;
-                break;
-            case DOWN :
-                if(spriteNum == 1) image = down1;
-                if(spriteNum == 2) image = down2;
-                break;
-            case LEFT :
-                if(spriteNum == 1) image = left1;
-                if(spriteNum == 2) image = left2;
-                break;
-            case RIGHT :
-                if(spriteNum == 1) image = rigth1;
-                if(spriteNum == 2) image = rigth2;
-                break;
-        }
-
-        // MONSTER HP BAR
-        if(isMonster(type) && hpBarOn) {
-            double oneScale = (double) gamePanel.tileSize/maxLife;
-            double hpBarValue = oneScale*life;
-
-            graphics2D.setColor(new Color(35, 35, 35));
-            graphics2D.fillRect(screenX-1, screenY-16, gamePanel.tileSize+2, 12 );
-
-            graphics2D.setColor(new Color(255, 0, 30));
-            graphics2D.fillRect(screenX, screenY-15, (int)hpBarValue, 10);
-
-            hpBarCounter++;
-            if(hpBarCounter > ONE_SECOND) {
-                hpBarCounter = 0;
-                hpBarOn = FALSE;
+            switch (direction) {
+                case UP:
+                    if (spriteNum == 1) image = up1;
+                    if (spriteNum == 2) image = up2;
+                    break;
+                case DOWN:
+                    if (spriteNum == 1) image = down1;
+                    if (spriteNum == 2) image = down2;
+                    break;
+                case LEFT:
+                    if (spriteNum == 1) image = left1;
+                    if (spriteNum == 2) image = left2;
+                    break;
+                case RIGHT:
+                    if (spriteNum == 1) image = rigth1;
+                    if (spriteNum == 2) image = rigth2;
+                    break;
             }
+
+            // MONSTER HP BAR
+            if (isMonster(type) && hpBarOn) {
+                double oneScale = (double) gamePanel.tileSize / maxLife;
+                double hpBarValue = oneScale * life;
+
+                graphics2D.setColor(new Color(35, 35, 35));
+                graphics2D.fillRect(screenX - 1, screenY - 16, gamePanel.tileSize + 2, 12);
+
+                graphics2D.setColor(new Color(255, 0, 30));
+                graphics2D.fillRect(screenX, screenY - 15, (int) hpBarValue, 10);
+
+                hpBarCounter++;
+                if (hpBarCounter > ONE_SECOND) {
+                    hpBarCounter = 0;
+                    hpBarOn = FALSE;
+                }
+            }
+
+            if (invincible) {
+                hpBarOn = TRUE;
+                hpBarCounter = 0;
+                changeAlpha(graphics2D, 0.4f);
+            }
+
+            if (dying)
+                dyingAnimation(graphics2D);
+
+            graphics2D.drawImage(image, screenX, screenY,null);
+            changeAlpha(graphics2D, 1f);
         }
-
-        if(invincible) {
-            hpBarOn = TRUE;
-            hpBarCounter = 0;
-            changeAlpha(graphics2D, 0.4f);
-        }
-
-        if(dying)
-            dyingAnimation(graphics2D);
-
-        graphics2D.drawImage(image, screenX, screenY, null);
-
-        changeAlpha(graphics2D, 1f);
     }
     private void dyingAnimation(Graphics2D graphics2D) {
         dyingCounter++;
