@@ -78,5 +78,13 @@ public class AssetSetter {
         gamePanel.objects[i] = new PotionRedObject(gamePanel);
         gamePanel.objects[i].worldX = gamePanel.tileSize * 22;
         gamePanel.objects[i].worldY = gamePanel.tileSize * 27;
+        i++;
+        gamePanel.objects[i] = new HeartObject(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 22;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 29;
+        i++;
+        gamePanel.objects[i] = new ManaCrystalObject(gamePanel);
+        gamePanel.objects[i].worldX = gamePanel.tileSize * 22;
+        gamePanel.objects[i].worldY = gamePanel.tileSize * 31;
     }
 }

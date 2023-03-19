@@ -14,6 +14,7 @@ import static java.awt.AlphaComposite.SRC_OVER;
 import static java.awt.AlphaComposite.getInstance;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static java.util.Objects.nonNull;
 
 public class Entity {
 
@@ -145,6 +146,17 @@ public class Entity {
         }
     }
     public void use(Entity entity) {}
+    public void checkDrop(){};
+    public void dropItem(Entity droppedItem){
+        for (int i = 0; i < gamePanel.objects.length; i++) {
+            if(nonNull(gamePanel.objects[i])) {
+                gamePanel.objects[i] = droppedItem;
+                gamePanel.objects[i].worldX = worldX; // the dead monster's wordX
+                gamePanel.objects[i].worldY = worldY;
+                break;
+            }
+        }
+    };
     public void draw(Graphics2D graphics2D) {
         BufferedImage image = null;
 

@@ -2,6 +2,9 @@ package br.org.edn.my2dgame.monster;
 
 import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.main.GamePanel;
+import br.org.edn.my2dgame.object.CoinBronzeObject;
+import br.org.edn.my2dgame.object.HeartObject;
+import br.org.edn.my2dgame.object.ManaCrystalObject;
 import br.org.edn.my2dgame.object.RockObject;
 
 import java.util.Random;
@@ -71,5 +74,21 @@ public class GreenSlimeMonster extends Entity {
     public void damageReaction() {
         actionLockCounter = 0;
         direction = gamePanel.player.direction;
+    }
+
+    @Override
+    public void checkDrop() {
+        // CAST A DIE
+        int i = new Random().nextInt(100)+1;
+
+        // SET THE MONSTER DROP
+        if(i < 50)
+            dropItem(new CoinBronzeObject(gamePanel));
+        if(i >= 50 && i < 75)
+            dropItem(new HeartObject(gamePanel));
+        if(i >= 75 && i < 100)
+            dropItem((new ManaCrystalObject(gamePanel)));
+
+
     }
 }

@@ -18,12 +18,10 @@ public class PotionRedObject extends Entity {
     }
     @Override
     public void use(Entity entity) {
+        gamePanel.playSE(2);
         gamePanel.gameState = gamePanel.diologueState;
         gamePanel.ui.currentDialogues = "You drink the the " + name + "!\n" +
                                         "You life has been recovered\nby " + value + ".";
         entity.life += value;
-        if(gamePanel.player.life > gamePanel.player.maxLife)
-            gamePanel.player.life = gamePanel.player.maxLife;
-        gamePanel.playSE(2);
     }
 }

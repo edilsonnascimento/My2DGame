@@ -2,7 +2,7 @@ package br.org.edn.my2dgame.main;
 
 import br.org.edn.my2dgame.entity.Entity;
 import br.org.edn.my2dgame.object.HeartObject;
-import br.org.edn.my2dgame.object.ManaCrystalObjectc;
+import br.org.edn.my2dgame.object.ManaCrystalObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -45,7 +45,7 @@ public class UI {
         heartHalf = heart.heartHalf;
         heartBlanck = heart.heartBlank;
 
-        Entity crystal = new ManaCrystalObjectc(gamePanel);
+        Entity crystal = new ManaCrystalObject(gamePanel);
         crystal_full = crystal.crystal_full;
         crystal_blank = crystal.crystal_blank;
     }
