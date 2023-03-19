@@ -271,13 +271,20 @@ public class Player extends Entity {
     }
 
     private void captureObject(int index) {
-        String text = "You cannot carry any more!";
+        String text = "";
         Entity objectSelected = gamePanel.objects[index];
-        if(inventory.size() != maxInventory) {
-            inventory.add(objectSelected);
-            gamePanel.playSE(1);
-            text = "Got a " + objectSelected.name + "!";
-            removeObject(index);
+        if(Constants.isPickupOnly(objectSelected.type)) {
+            gamePanel.objects[index].use(this);
+            gamePanel.objects[index] = null;
+        }
+        else {
+            text = "You cannot carry any more!";
+            if (inventory.size() != maxInventory) {
+                inventory.add(objectSelected);
+                gamePanel.playSE(1);
+                text = "Got a " + objectSelected.name + "!";
+                removeObject(index);
+            }
         }
         gamePanel.ui.addMessage(text);
     }

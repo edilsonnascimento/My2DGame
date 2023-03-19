@@ -8,12 +8,11 @@ import static br.org.edn.my2dgame.main.Constants.TYPE_CONSUMABLE;
 
 public class PotionRedObject extends Entity {
 
-    private int value = 5;
-
     public PotionRedObject(GamePanel gamePanel) {
         super(gamePanel);
         type = TYPE_CONSUMABLE;
         name = "Red Potion";
+        value = 5;
         down1 = setup(DIRECTORY_BASE_IMAGE_OBJECT,"potion_red", gamePanel.tileSize, gamePanel.tileSize);
         description = "[" + name + "]\nHeals your life by " + value + ".";
     }

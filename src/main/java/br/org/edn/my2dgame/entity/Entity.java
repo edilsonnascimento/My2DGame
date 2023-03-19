@@ -80,6 +80,7 @@ public class Entity {
     public int defenseValue;
     public String description = "";
     public int useCost;
+    protected int value;
 
     // TYPE
     public int type;
